@@ -2944,8 +2944,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = MailCore;
+<<<<<<< Updated upstream
 				SDKROOT = macosx;
+=======
 				PROVISIONING_PROFILE = "CD5C4926-609B-4964-AA5F-7DAFD841FBDF";
+>>>>>>> Stashed changes
 			};
 			name = Debug;
 		};
@@ -2958,8 +2961,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = MailCore;
+<<<<<<< Updated upstream
 				SDKROOT = macosx;
+=======
 				PROVISIONING_PROFILE = "CD5C4926-609B-4964-AA5F-7DAFD841FBDF";
+>>>>>>> Stashed changes
 			};
 			name = Release;
 		};
