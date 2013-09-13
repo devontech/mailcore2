@@ -25,6 +25,7 @@
 #include "MCIMAPStoreFlagsOperation.h"
 #include "MCIMAPStoreLabelsOperation.h"
 #include "MCIMAPSearchOperation.h"
+#include "MCIMAPConnectOperation.h"
 #include "MCIMAPCheckAccountOperation.h"
 #include "MCIMAPFetchNamespaceOperation.h"
 #include "MCIMAPIdleOperation.h"
@@ -36,6 +37,7 @@
 #include "MCIMAPAsyncSession.h"
 #include "MCConnectionLogger.h"
 #include "MCIMAPMessageRenderingOperation.h"
+#include "MCIMAPIdentity.h"
 
 using namespace mailcore;
 
@@ -49,12 +51,16 @@ namespace mailcore {
         virtual ~IMAPOperationQueueCallback() {
         }
         
-        virtual void queueStartRunning(OperationQueue * queue) {
+        virtual void queueStartRunning() {
+            mConnection->setQueueRunning(true);
+            mConnection->owner()->operationRunningStateChanged();
             mConnection->queueStartRunning();
         }
         
-        virtual void queueStoppedRunning(OperationQueue * queue) {
+        virtual void queueStoppedRunning() {
+            mConnection->setQueueRunning(false);
             mConnection->tryAutomaticDisconnect();
+            mConnection->owner()->operationRunningStateChanged();
             mConnection->queueStoppedRunning();
         }
         
@@ -86,6 +92,7 @@ IMAPAsyncConnection::IMAPAsyncConnection()
     mSession = new IMAPSession();
     mQueue = new OperationQueue();
     mDefaultNamespace = NULL;
+    mClientIdentity = new IMAPIdentity();
     mLastFolder = NULL;
     mQueueCallback = new IMAPOperationQueueCallback(this);
     mQueue->setCallback(mQueueCallback);
@@ -94,6 +101,7 @@ IMAPAsyncConnection::IMAPAsyncConnection()
     pthread_mutex_init(&mConnectionLoggerLock, NULL);
     mInternalLogger = new IMAPConnectionLogger(this);
     mAutomaticConfigurationEnabled = true;
+    mQueueRunning = false;
 }
 
 IMAPAsyncConnection::~IMAPAsyncConnection()
@@ -103,6 +111,7 @@ IMAPAsyncConnection::~IMAPAsyncConnection()
     MC_SAFE_RELEASE(mInternalLogger);
     MC_SAFE_RELEASE(mQueueCallback);
     MC_SAFE_RELEASE(mLastFolder);
+    MC_SAFE_RELEASE(mClientIdentity);
     MC_SAFE_RELEASE(mDefaultNamespace);
     MC_SAFE_RELEASE(mQueue);
     MC_SAFE_RELEASE(mSession);
@@ -217,6 +226,19 @@ void IMAPAsyncConnection::setDefaultNamespace(IMAPNamespace * ns)
 IMAPNamespace * IMAPAsyncConnection::defaultNamespace()
 {
     return mDefaultNamespace;
+}
+
+void IMAPAsyncConnection::setClientIdentity(IMAPIdentity * identity)
+{
+    MC_SAFE_REPLACE_COPY(IMAPIdentity, mClientIdentity, identity);
+    mc_foreacharray(String, key, identity->allInfoKeys()) {
+        mSession->clientIdentity()->setInfoForKey(key, identity->infoForKey(key));
+    }
+}
+
+IMAPIdentity * IMAPAsyncConnection::clientIdentity()
+{
+    return mClientIdentity;
 }
 
 IMAPFolderInfoOperation * IMAPAsyncConnection::folderInfoOperation(String * folder)
@@ -457,13 +479,19 @@ IMAPFetchNamespaceOperation * IMAPAsyncConnection::fetchNamespaceOperation()
     return op;
 }
 
-IMAPIdentityOperation * IMAPAsyncConnection::identityOperation(String * vendor, String * name, String * version)
+IMAPIdentityOperation * IMAPAsyncConnection::identityOperation(IMAPIdentity * identity)
 {
     IMAPIdentityOperation * op = new IMAPIdentityOperation();
     op->setSession(this);
-    op->setVendor(vendor);
-    op->setName(name);
-    op->setVersion(version);
+    op->setClientIdentity(identity);
+    op->autorelease();
+    return op;
+}
+
+IMAPOperation * IMAPAsyncConnection::connectOperation()
+{
+    IMAPConnectOperation * op = new IMAPConnectOperation();
+    op->setSession(this);
     op->autorelease();
     return op;
 }
@@ -638,4 +666,14 @@ void IMAPAsyncConnection::setAutomaticConfigurationEnabled(bool enabled)
 bool IMAPAsyncConnection::isAutomaticConfigurationEnabled()
 {
     return mAutomaticConfigurationEnabled;
+}
+
+bool IMAPAsyncConnection::isQueueRunning()
+{
+    return mQueueRunning;
+}
+
+void IMAPAsyncConnection::setQueueRunning(bool running)
+{
+    mQueueRunning = running;
 }
