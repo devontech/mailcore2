@@ -43,6 +43,10 @@ static NSString * MCOLocalizedDescriptionTable[] = {
     @"An error occured while fetching a message list on the POP server.",             /** MCOErrorFetchMessageList */
     @"An error occured while deleting a message on the POP server.",                  /** MCOErrorDeleteMessage */
     @"Account check failed because the account is invalid.",                          /** MCOErrorInvalidAccount */
+    @"File access error",                                                             /** MCOErrorFile */
+    @"Compression is not available",                                                  /** MCOErrorCompression */
+    @"A sender is required to send message",                                          /** MCOErrorNoSender */
+    @"A recipient is required to send message",                                       /** MCOErrorNoRecipient */
 };
 
 @implementation NSError (MCO)
@@ -60,6 +64,7 @@ static NSString * MCOLocalizedDescriptionTable[] = {
     NSError *error = [NSError errorWithDomain:MCOErrorDomain
                                          code:(int)code
                                      userInfo:userInfo];
+    [userInfo release];
     return error;
 }
 @end

@@ -589,10 +589,6 @@ static char * extract_subject(char * str, int keep_bracket)
 		 */
 		
 		while (len > 0) {
-			int chg;
-			
-			chg = 0;
-			
 			/* subj-trailer    = "(fwd)" / WSP */
 			if (subj[len - 1] == ' ') {
 				subj[len - 1] = '\0';
@@ -655,15 +651,10 @@ static char * extract_subject(char * str, int keep_bracket)
 		 */
 		
 		if (len >= 5) {
-			size_t saved_begin;
-			
-			saved_begin = begin;
 			if (strncasecmp(subj + begin, "[fwd:", 5) == 0) {
 				begin += 5;
 				
-				if (subj[len - 1] != ']')
-					saved_begin = begin;
-				else {
+				if (subj[len - 1] == ']') {
 					subj[len - 1] = '\0';
 					len --;
 					do_repeat_6 = 1;
@@ -1806,8 +1797,8 @@ String * String::flattenHTML()
 bool String::hasSuffix(String * suffix)
 {
     if (mLength >= suffix->mLength) {
-        if (u_memcmp(suffix->mUnicodeChars + (mLength - suffix->mLength),
-        mUnicodeChars, suffix->mLength) == 0) {
+        if (u_memcmp(mUnicodeChars + (mLength - suffix->mLength),
+          suffix->mUnicodeChars, suffix->mLength) == 0) {
             return true;
         }
     }
@@ -1850,8 +1841,15 @@ Data * String::dataUsingEncoding(const char * charset)
     Data * data;
     
     data = NULL;
-    CFStringRef encodingName = CFStringCreateWithCString(NULL, charset, kCFStringEncodingUTF8);
-    CFStringEncoding encoding = CFStringConvertIANACharSetNameToEncoding(encodingName);
+    CFStringEncoding encoding;
+    if (strcasecmp(charset, "mutf-7") == 0) {
+        encoding = kCFStringEncodingUTF7_IMAP;
+    }
+    else {
+        CFStringRef encodingName = CFStringCreateWithCString(NULL, charset, kCFStringEncodingUTF8);
+        encoding = CFStringConvertIANACharSetNameToEncoding(encodingName);
+        CFRelease(encodingName);
+    }
     CFStringRef cfStr = CFStringCreateWithBytes(NULL, (const UInt8 *) mUnicodeChars,
         (CFIndex) mLength * sizeof(* mUnicodeChars), kCFStringEncodingUTF16LE, false);
     if (cfStr != NULL) {
@@ -1863,7 +1861,6 @@ Data * String::dataUsingEncoding(const char * charset)
         }
         CFRelease(cfStr);
     }
-    CFRelease(encodingName);
     
     return data;
 #else

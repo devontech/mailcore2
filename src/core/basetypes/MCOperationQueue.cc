@@ -140,15 +140,12 @@ void OperationQueue::checkRunningOnMainThread(void * context)
 
 void OperationQueue::checkRunningAfterDelay(void * context)
 {
-    bool quitting = false;
-    
     pthread_mutex_lock(&mLock);
     if (!mQuitting) {
         if (mOperations->count() == 0) {
             MCLog("trying to quit %p", this);
             mailsem_up(mOperationSem);
             mQuitting = true;
-            quitting = true;
         }
     }
     pthread_mutex_unlock(&mLock);
@@ -166,7 +163,7 @@ void OperationQueue::stoppedOnMainThread(void * context)
     mStarted = false;
     
     if (mCallback) {
-        mCallback->queueStoppedRunning(this);
+        mCallback->queueStoppedRunning();
     }
     
     release(); // (2)
@@ -180,7 +177,7 @@ void OperationQueue::startThread()
         return;
     
     if (mCallback) {
-        mCallback->queueStartRunning(this);
+        mCallback->queueStartRunning();
     }
     
     retain(); // (3)
