@@ -180,7 +180,7 @@ mailcore::HashMap * HTMLRendererTemplateCallback::templateValuesForPart(mailcore
 
 mailcore::String * HTMLRendererTemplateCallback::templateForMainHeader(MessageHeader * header)
 {
-    return MCSTR("<div style=\"color: #000;\">\
+    return MCSTR("<div>\
                  {{#HASFROM}}\
                  <div><b>From:</b> {{FROM}}</div>\
                  {{/HASFROM}}\
@@ -218,37 +218,31 @@ mailcore::String * HTMLRendererTemplateCallback::templateForImage(AbstractPart *
 
 mailcore::String * HTMLRendererTemplateCallback::templateForAttachment(AbstractPart * part)
 {
-    return MCSTR("{{#HASSIZE}}\
-                 <div>- {{FILENAME}}, {{SIZE}}</div>\
+    return MCSTR("<div class=\"mailcore_attachment\">{{#HASSIZE}}\
+                 <div>{{FILENAME}}, {{SIZE}}</div>\
                  {{/HASSIZE}}\
                  {{#NOSIZE}}\
                  <div>- {{FILENAME}}</div>\
                  {{/NOSIZE}}\
-                 ");
+                 </div>");
 }
 
 mailcore::String * HTMLRendererTemplateCallback::templateForMessage(AbstractMessage * message)
 {
-    return MCSTR("<style type=\"text/css\">\
-				 body {font: normal 12pt/16pt Helvetica, sans-serif !important; color: #000; margin: 30px 30px 30px 30px !important;}\
-				 </style>\
-				 <div style=\"padding-bottom: 2em;\">{{HEADER}}</div>\
-				 <div>{{BODY}}</div>");
+    return MCSTR("<div class=\"mailcore_header\">{{HEADER}}</div>\
+				 <div class=\"mailcore_body\">{{BODY}}</div>");
 }
 
 
 mailcore::String * HTMLRendererTemplateCallback::templateForEmbeddedMessage(AbstractMessagePart * part)
 {
-    return MCSTR("<style type=\"text/css\">\
-				 body {font: normal 14pt/20pt Helvetica, sans-serif !important; color: #000; margin: 30px 30px 30px 30px !important;}\
-				 </style>\
-				 <div style=\"padding-bottom: 2em;\">{{HEADER}}</div>\
-				 <div>{{BODY}}</div>");
+    return MCSTR("<div class=\"mailcore_header\">{{HEADER}}</div>\
+				 <div class=\"mailcore_body\">{{BODY}}</div>");
 }
 
 mailcore::String * HTMLRendererTemplateCallback::templateForAttachmentSeparator()
 {
-    return MCSTR("<hr/>");
+    return MCSTR("");
 }
 
 mailcore::String * HTMLRendererTemplateCallback::filterHTMLForMessage(mailcore::String * html)
