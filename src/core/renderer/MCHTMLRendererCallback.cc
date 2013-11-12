@@ -180,7 +180,7 @@ mailcore::HashMap * HTMLRendererTemplateCallback::templateValuesForPart(mailcore
 
 mailcore::String * HTMLRendererTemplateCallback::templateForMainHeader(MessageHeader * header)
 {
-    return MCSTR("<div style=\"background-color:#eee\">\
+    return MCSTR("<div style=\"color: #000;\">\
                  {{#HASFROM}}\
                  <div><b>From:</b> {{FROM}}</div>\
                  {{/HASFROM}}\
@@ -229,13 +229,21 @@ mailcore::String * HTMLRendererTemplateCallback::templateForAttachment(AbstractP
 
 mailcore::String * HTMLRendererTemplateCallback::templateForMessage(AbstractMessage * message)
 {
-    return MCSTR("<div style=\"padding-bottom: 20px;\">{{HEADER}}</div><div>{{BODY}}</div>");
+    return MCSTR("<style type=\"text/css\">\
+				 body {font: normal 12pt/16pt Helvetica, sans-serif !important; color: #000; margin: 30px 30px 30px 30px !important;}\
+				 </style>\
+				 <div style=\"padding-bottom: 2em;\">{{HEADER}}</div>\
+				 <div>{{BODY}}</div>");
 }
 
 
 mailcore::String * HTMLRendererTemplateCallback::templateForEmbeddedMessage(AbstractMessagePart * part)
 {
-    return MCSTR("<div style=\"padding-bottom: 20px;\">{{HEADER}}</div><div>{{BODY}}</div>");
+    return MCSTR("<style type=\"text/css\">\
+				 body {font: normal 14pt/20pt Helvetica, sans-serif !important; color: #000; margin: 30px 30px 30px 30px !important;}\
+				 </style>\
+				 <div style=\"padding-bottom: 2em;\">{{HEADER}}</div>\
+				 <div>{{BODY}}</div>");
 }
 
 mailcore::String * HTMLRendererTemplateCallback::templateForAttachmentSeparator()
