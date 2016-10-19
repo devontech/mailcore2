@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOSEARCHOPERATION_H_
+#ifndef MAILCORE_MCOSEARCHOPERATION_H
 
-#define __MAILCORE_MCOSEARCHOPERATION_H_
+#define MAILCORE_MCOSEARCHOPERATION_H
 
 /** This class runs an IMAP search operation */
 
@@ -16,6 +16,7 @@
 
 @class MCOIndexSet;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPSearchOperation : MCOIMAPBaseOperation
 
 /** 
@@ -29,8 +30,9 @@
    error code available in MCOConstants.h, `searchResult` will be nil
 */
 
-- (void) start:(void (^)(NSError * error, MCOIndexSet * searchResult))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, MCOIndexSet * __nullable searchResult))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

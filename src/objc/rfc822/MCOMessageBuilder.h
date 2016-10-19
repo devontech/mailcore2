@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOMESSAGEBUILDER_H_
+#ifndef MAILCORE_MCOMESSAGEBUILDER_H
 
-#define __MAILCORE_MCOMESSAGEBUILDER_H_
+#define MAILCORE_MCOMESSAGEBUILDER_H
 
 #import <MailCore/MCOAbstractMessage.h>
 
@@ -58,6 +58,27 @@
 /** RFC 822 formatted message.*/
 - (NSData *) data;
 
+/** RFC 822 formatted message for encryption.*/
+- (NSData *) dataForEncryption;
+
+/** Store RFC 822 formatted message to file. */
+- (BOOL) writeToFile:(NSString *)filename error:(NSError **)error;
+
+/**
+ Returns an OpenPGP signed message with a given signature.
+ The signature needs to be computed on the data returned by -dataForEncryption
+ before calling this method.
+ You could use http://www.netpgp.com to generate it.
+ */
+- (NSData *) openPGPSignedMessageDataWithSignatureData:(NSData *)signature;
+
+/**
+ Returns an OpenPGP encrypted message with a given encrypted data.
+ The encrypted data needs to be computed before calling this method.
+ You could use http://www.netpgp.com to generate it.
+ */
+- (NSData *) openPGPEncryptedMessageDataWithEncryptedData:(NSData *)encryptedData;
+
 /** HTML rendering of the message to be displayed in a web view. The delegate can be nil.*/
 - (NSString *) htmlRenderingWithDelegate:(id <MCOHTMLRendererDelegate>)delegate;
 
@@ -70,6 +91,10 @@
 /** Text rendering of the body of the message. All end of line will be removed and white spaces cleaned up.
  This method can be used to generate the summary of the message.*/
 - (NSString *) plainTextBodyRendering;
+
+/** Text rendering of the body of the message. All end of line will be removed and white spaces cleaned up if requested.
+ This method can be used to generate the summary of the message.*/
+- (NSString *) plainTextBodyRenderingAndStripWhitespace:(BOOL)stripWhitespace;
 
 @end
 

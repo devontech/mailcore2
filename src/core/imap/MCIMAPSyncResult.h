@@ -6,21 +6,21 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPSYNCRESULT_H_
+#ifndef MAILCORE_MCIMAPSYNCRESULT_H
 
-#define __MAILCORE_MCIMAPSYNCRESULT_H_
+#define MAILCORE_MCIMAPSYNCRESULT_H
 
 #include <MailCore/MCBaseTypes.h>
 
 #ifdef __cplusplus
 
 namespace mailcore {
- 
-    class IMAPSyncResult : public Object {
-	public:
-		IMAPSyncResult();
-		virtual ~IMAPSyncResult();
-		
+    
+    class MAILCORE_EXPORT IMAPSyncResult : public Object {
+    public:
+        IMAPSyncResult();
+        virtual ~IMAPSyncResult();
+        
         virtual void setModifiedOrAddedMessages(Array * /* IMAPMessage */ messages);
         virtual Array * /* IMAPMessage */ modifiedOrAddedMessages();
         

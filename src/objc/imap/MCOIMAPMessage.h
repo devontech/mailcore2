@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPMESSAGE_H_
+#ifndef MAILCORE_MCOIMAPMESSAGE_H
 
-#define __MAILCORE_MCOIMAPMESSAGE_H_
+#define MAILCORE_MCOIMAPMESSAGE_H
 
 /** 
  This represents an IMAP message.
@@ -29,16 +29,26 @@
 
 @protocol MCOHTMLRendererIMAPDelegate;
 
-@interface MCOIMAPMessage : MCOAbstractMessage
+@interface MCOIMAPMessage : MCOAbstractMessage <NSCoding>
 
 /** IMAP UID of the message. */
 @property (nonatomic, assign) uint32_t uid;
+
+/** IMAP sequence number of the message.
+ @warning *Important*: This property won't be serialized. */
+@property (nonatomic, assign) uint32_t sequenceNumber;
+
+/* Size of the entire message */
+@property (nonatomic, assign) uint32_t size;
 
 /** Flags of the message, like if it is deleted, read, starred etc */
 @property (nonatomic, assign) MCOMessageFlag flags;
 
 /** The contents of the message flags when it was fetched from the server */
 @property (nonatomic, assign) MCOMessageFlag originalFlags;
+
+/** Flag keywords of the message, mostly custom flags */
+@property (nonatomic, copy) NSArray * /* NSString */ customFlags;
 
 /** It's the last modification sequence value of the message synced from the server. See RFC4551 */
 @property (nonatomic, assign) uint64_t modSeqValue;

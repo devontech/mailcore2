@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPQuotaOperation_H_
+#ifndef MAILCORE_MCIMAPQuotaOperation_H
 
-#define __MAILCORE_MCIMAPQuotaOperation_H_
+#define MAILCORE_MCIMAPQuotaOperation_H
 
 #include "MCIMAPOperation.h"
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPQuotaOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPQuotaOperation : public IMAPOperation {
     public:
         IMAPQuotaOperation();
         virtual ~IMAPQuotaOperation();
@@ -32,6 +32,7 @@ namespace mailcore {
         uint32_t mLimit;
         uint32_t mUsage;
     };
+    
 }
 
 #endif

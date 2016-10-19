@@ -6,14 +6,16 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPOPERATION_H_
+#ifndef MAILCORE_MCOIMAPOPERATION_H
 
-#define __MAILCORE_MCOIMAPOPERATION_H_
+#define MAILCORE_MCOIMAPOPERATION_H
 
 /** This class implements a generic IMAP operation */
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 
+
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPOperation : MCOIMAPBaseOperation
 
 /** 
@@ -26,8 +28,9 @@
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an 
    error code available in MCOConstants.h,
 */
-- (void) start:(void (^)(NSError * error))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

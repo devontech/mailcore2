@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCPOPFETCHHEADEROPERATION_H_
+#ifndef MAILCORE_MCPOPFETCHHEADEROPERATION_H
 
-#define __MAILCORE_MCPOPFETCHHEADEROPERATION_H_
+#define MAILCORE_MCPOPFETCHHEADEROPERATION_H
 
 #include <MailCore/MCPOPOperation.h>
 
@@ -18,7 +18,7 @@ namespace mailcore {
     
     class MessageHeader;
     
-    class POPFetchHeaderOperation : public POPOperation {
+    class MAILCORE_EXPORT POPFetchHeaderOperation : public POPOperation {
     public:
         POPFetchHeaderOperation();
         virtual ~POPFetchHeaderOperation();
@@ -36,6 +36,7 @@ namespace mailcore {
         MessageHeader * mHeader;
         
     };
+    
 }
 
 #endif

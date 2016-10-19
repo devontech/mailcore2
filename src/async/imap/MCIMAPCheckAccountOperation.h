@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPCHECKACCOUNTOPERATION_H_
+#ifndef MAILCORE_MCIMAPCHECKACCOUNTOPERATION_H
 
-#define __MAILCORE_MCIMAPCHECKACCOUNTOPERATION_H_
+#define MAILCORE_MCIMAPCHECKACCOUNTOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,10 +16,22 @@
 
 namespace mailcore {
     
-    class IMAPCheckAccountOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPCheckAccountOperation : public IMAPOperation {
+    public:
+        IMAPCheckAccountOperation();
+        virtual ~IMAPCheckAccountOperation();
+
+        virtual String * loginResponse();
+        virtual Data * loginUnparsedResponseData();
+
     public: // subclass behavior
         virtual void main();
+
+    private:
+        String * mLoginResponse;
+        Data * mLoginUnparsedResponseData;
     };
+    
 }
 
 #endif

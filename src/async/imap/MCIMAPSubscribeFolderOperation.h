@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPSUBSCRIBEFOLDEROPERATION_H_
+#ifndef MAILCORE_MCIMAPSUBSCRIBEFOLDEROPERATION_H
 
-#define __MAILCORE_MCIMAPSUBSCRIBEFOLDEROPERATION_H_
+#define MAILCORE_MCIMAPSUBSCRIBEFOLDEROPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPSubscribeFolderOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPSubscribeFolderOperation : public IMAPOperation {
     public:
         IMAPSubscribeFolderOperation();
         virtual ~IMAPSubscribeFolderOperation();
@@ -31,6 +31,7 @@ namespace mailcore {
         bool mUnsubscribeEnabled;
         
     };
+    
 }
 
 #endif

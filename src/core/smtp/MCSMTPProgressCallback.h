@@ -1,17 +1,20 @@
-#ifndef __MAILCORE_MCSMTPPROGRESSCALLBACK_H_
+#ifndef MAILCORE_MCSMTPPROGRESSCALLBACK_H
 
-#define __MAILCORE_MCSMTPPROGRESSCALLBACK_H_
+#define MAILCORE_MCSMTPPROGRESSCALLBACK_H
 
 #ifdef __cplusplus
 
+#include <MailCore/MCUtils.h>
+
 namespace mailcore {
-
-	class SMTPSession;
-
-	class SMTPProgressCallback {
-	public:
-		virtual void bodyProgress(SMTPSession * session, unsigned int current, unsigned int maximum) {};
-	};
+    
+    class SMTPSession;
+    
+    class MAILCORE_EXPORT SMTPProgressCallback {
+    public:
+        virtual void bodyProgress(SMTPSession * session, unsigned int current, unsigned int maximum) {};
+    };
+    
 }
 
 #endif

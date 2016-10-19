@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPFETCHNAMESPACEOPERATION_H_
+#ifndef MAILCORE_MCIMAPFETCHNAMESPACEOPERATION_H
 
-#define __MAILCORE_MCIMAPFETCHNAMESPACEOPERATION_H_
+#define MAILCORE_MCIMAPFETCHNAMESPACEOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPFetchNamespaceOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPFetchNamespaceOperation : public IMAPOperation {
     public:
         IMAPFetchNamespaceOperation();
         virtual ~IMAPFetchNamespaceOperation();
@@ -31,6 +31,7 @@ namespace mailcore {
         HashMap * mNamespaces;
         
     };
+    
 }
 
 #endif

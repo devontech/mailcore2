@@ -6,20 +6,23 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCSMTPOPERATIONCALLBACK_H_
+#ifndef MAILCORE_MCSMTPOPERATIONCALLBACK_H
 
-#define __MAILCORE_MCSMTPOPERATIONCALLBACK_H_
+#define MAILCORE_MCSMTPOPERATIONCALLBACK_H
+
+#include <MailCore/MCUtils.h>
 
 #ifdef __cplusplus
 
 namespace mailcore {
     
-	class SMTPOperation;
+    class SMTPOperation;
     
-	class SMTPOperationCallback {
-	public:
-		virtual void bodyProgress(SMTPOperation * session, unsigned int current, unsigned int maximum) {};
-	};
+    class MAILCORE_EXPORT SMTPOperationCallback {
+    public:
+        virtual void bodyProgress(SMTPOperation * session, unsigned int current, unsigned int maximum) {};
+    };
+    
 }
 
 #endif

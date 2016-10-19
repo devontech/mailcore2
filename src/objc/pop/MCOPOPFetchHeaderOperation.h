@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOPOPFETCHHEADEROPERATION_H_
+#ifndef MAILCORE_MCOPOPFETCHHEADEROPERATION_H
 
-#define __MAILCORE_MCOPOPFETCHHEADEROPERATION_H_
+#define MAILCORE_MCOPOPFETCHHEADEROPERATION_H
 
 #import <Foundation/Foundation.h>
 #import <MailCore/MCOPOPOperation.h>
@@ -20,6 +20,7 @@
 
 @class MCOMessageHeader;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOPOPFetchHeaderOperation : MCOPOPOperation
 
 /** 
@@ -30,10 +31,11 @@
  - On success `error` will be nil and `header` will contain the message header
  
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an 
-   error code available in MCOConstants.h, `header` will be null
+   error code available in MCOConstants.h, `header` will be nil
 */
-- (void) start:(void (^)(NSError * error, MCOMessageHeader * header))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, MCOMessageHeader * __nullable header))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

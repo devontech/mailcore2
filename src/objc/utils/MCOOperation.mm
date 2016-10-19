@@ -56,7 +56,7 @@ public:
     return _operation;
 }
 
-- (id) initWithMCOperation:(Operation *)op
+- (instancetype) initWithMCOperation:(Operation *)op
 {
     self = [super init];
     
@@ -80,6 +80,9 @@ public:
 {
     return MCO_NATIVE_INSTANCE->isCancelled();
 }
+
+MCO_OBJC_SYNTHESIZE_SCALAR(dispatch_queue_t, dispatch_queue_t, setCallbackDispatchQueue, callbackDispatchQueue);
+MCO_OBJC_SYNTHESIZE_SCALAR(BOOL, bool, setShouldRunWhenCancelled, shouldRunWhenCancelled);
 
 - (void) cancel
 {

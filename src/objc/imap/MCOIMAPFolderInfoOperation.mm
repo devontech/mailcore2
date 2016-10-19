@@ -47,28 +47,21 @@ typedef void (^CompletionType)(NSError *error, MCOIMAPFolderInfo *info);
 
 - (void) cancel
 {
-  [_completionBlock release];
-  _completionBlock = nil;
-  [super cancel];
+    [_completionBlock release];
+    _completionBlock = nil;
+    [super cancel];
 }
 
 - (void) operationCompleted
 {
     if (_completionBlock == NULL)
         return;
-    
+
     nativeType *op = MCO_NATIVE_INSTANCE;
     if (op->error() == mailcore::ErrorNone) {
-        MCOIMAPFolderInfo * info = [MCOIMAPFolderInfo info];
-        [info setUidNext:MCO_NATIVE_INSTANCE->uidNext()];
-        [info setUidValidity:MCO_NATIVE_INSTANCE->uidValidity()];
-        [info setModSequenceValue:MCO_NATIVE_INSTANCE->modSequenceValue()];
-        [info setMessageCount:MCO_NATIVE_INSTANCE->messageCount()];
-        [info setFirstUnseenUid:MCO_NATIVE_INSTANCE->firstUnseenUid()];
-        
+        MCOIMAPFolderInfo * info = MCO_TO_OBJC(op->info());
         _completionBlock(nil, info);
-    }
-    else {
+    } else {
         _completionBlock([NSError mco_errorWithErrorCode:op->error()], nil);
     }
     [_completionBlock release];

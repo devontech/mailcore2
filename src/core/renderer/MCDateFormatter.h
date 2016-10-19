@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCDATEFORMATTER_H_
-#define __MAILCORE_MCDATEFORMATTER_H_
+#ifndef MAILCORE_MCDATEFORMATTER_H
+
+#define MAILCORE_MCDATEFORMATTER_H
 
 #include <MailCore/MCBaseTypes.h>
 
@@ -30,13 +31,15 @@ namespace mailcore {
         DateFormatStyleNone = -1 /* UDAT_NONE */,
     };
     
-    class DateFormatter : public Object {
+    class MAILCORE_EXPORT DateFormatter : public Object {
     public:
-		DateFormatter();
-		virtual ~DateFormatter();
-		
-		static DateFormatter * dateFormatter();
+        DateFormatter();
+        virtual ~DateFormatter();
         
+        static DateFormatter * dateFormatter();
+        
+        virtual void prepare();
+
         virtual void setDateStyle(DateFormatStyle style);
         virtual DateFormatStyle dateStyle();
         
@@ -54,7 +57,7 @@ namespace mailcore {
         
         virtual String * stringFromDate(time_t date);
         virtual time_t dateFromString(String * dateString);
-        
+
     private:
         UDateFormat * mDateFormatter;
         DateFormatStyle mDateStyle;
@@ -63,8 +66,6 @@ namespace mailcore {
         String * mTimezone;
         String * mLocale;
         void * mAppleDateFormatter;
-        
-        void prepare();
     };
     
 }

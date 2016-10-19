@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCPOPDELETEMESSAGESOPERATION_H_
+#ifndef MAILCORE_MCPOPDELETEMESSAGESOPERATION_H
 
-#define __MAILCORE_MCPOPDELETEMESSAGESOPERATION_H_
+#define MAILCORE_MCPOPDELETEMESSAGESOPERATION_H
 
 #include <MailCore/MCPOPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class POPDeleteMessagesOperation : public POPOperation {
+    class MAILCORE_EXPORT POPDeleteMessagesOperation : public POPOperation {
     public:
         POPDeleteMessagesOperation();
         virtual ~POPDeleteMessagesOperation();

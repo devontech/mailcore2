@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCABSTRACTMESSAGEPART_H_
+#ifndef MAILCORE_MCABSTRACTMESSAGEPART_H
 
-#define __MAILCORE_MCABSTRACTMESSAGEPART_H_
+#define MAILCORE_MCABSTRACTMESSAGEPART_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCAbstractPart.h>
@@ -11,7 +11,7 @@ namespace mailcore {
     
     class MessageHeader;
     
-    class AbstractMessagePart : public AbstractPart {
+    class MAILCORE_EXPORT AbstractMessagePart : public AbstractPart {
     public:
         AbstractMessagePart();
         virtual ~AbstractMessagePart();
@@ -37,6 +37,7 @@ namespace mailcore {
         MessageHeader * mHeader;
         void init();
     };
+    
 }
 
 #endif

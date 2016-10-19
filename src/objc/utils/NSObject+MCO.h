@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_NSOBJECT_MCO_H_
+#ifndef MAILCORE_NSOBJECT_MCO_H
 
-#define __MAILCORE_NSOBJECT_MCO_H_
+#define MAILCORE_NSOBJECT_MCO_H
 
 #import <Foundation/Foundation.h>
 
@@ -79,7 +79,7 @@ MCO_NATIVE_INSTANCE->setter((mcType) getter); \
 }
 
 #define MCO_SYNTHESIZE_NSCODING \
-- (id) initWithCoder:(NSCoder *)coder \
+- (instancetype) initWithCoder:(NSCoder *)coder \
 { \
   mailcore::HashMap * serializable = MCO_FROM_OBJC(mailcore::HashMap, [coder decodeObjectForKey:@"info"]); \
   self = MCO_TO_OBJC(mailcore::Object::objectWithSerializable(serializable)); \

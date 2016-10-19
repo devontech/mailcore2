@@ -50,7 +50,7 @@
     }
     else {
         [_messageView setMessage:NULL];
-        MCOIMAPFetchContentOperation * op = [_session fetchMessageByUIDOperationWithFolder:_folder uid:[_message uid]];
+        MCOIMAPFetchContentOperation * op = [_session fetchMessageOperationWithFolder:_folder uid:[_message uid]];
         [_ops addObject:op];
         [op start:^(NSError * error, NSData * data) {
             if ([error code] != MCOErrorNone) {
@@ -99,7 +99,7 @@
     
     [_pending addObject:partUniqueID];
     
-    MCOIMAPFetchContentOperation * op = [_session fetchMessageAttachmentByUIDOperationWithFolder:folder uid:[_message uid] partID:[part partID] encoding:[part encoding]];
+    MCOIMAPFetchContentOperation * op = [_session fetchMessageAttachmentOperationWithFolder:folder uid:[_message uid] partID:[part partID] encoding:[part encoding]];
     [_ops addObject:op];
     [op start:^(NSError * error, NSData * data) {
         if ([error code] != MCOErrorNone) {
@@ -249,27 +249,32 @@ typedef void (^DownloadCallback)(NSError * error);
         return nil;
 
     info = [[NSMutableDictionary alloc] init];
-    [info setObject:(id) kCFBooleanTrue forKey:(id) kCGImageSourceCreateThumbnailWithTransform];
-    [info setObject:(id) kCFBooleanTrue forKey:(id) kCGImageSourceCreateThumbnailFromImageAlways];
-    [info setObject:(id) [NSNumber numberWithFloat:(float) IMAGE_PREVIEW_WIDTH] forKey:(id) kCGImageSourceThumbnailMaxPixelSize];
+    [info setObject:(id) kCFBooleanTrue forKey:(__bridge id) kCGImageSourceCreateThumbnailWithTransform];
+    [info setObject:(id) kCFBooleanTrue forKey:(__bridge id) kCGImageSourceCreateThumbnailFromImageAlways];
+    [info setObject:(id) [NSNumber numberWithFloat:(float) IMAGE_PREVIEW_WIDTH] forKey:(__bridge id) kCGImageSourceThumbnailMaxPixelSize];
     thumbnail = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, (__bridge CFDictionaryRef) info);
 
-    CGImageDestinationRef destination;
-    NSMutableData * destData = [NSMutableData data];
-
-    destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef) destData,
-                                                   (CFStringRef) @"public.jpeg",
-                                                   1, NULL);
+    if (thumbnail != nil) {
+        
+        CGImageDestinationRef destination;
+        NSMutableData * destData = [NSMutableData data];
+        destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef) destData,
+                                                       (CFStringRef) @"public.jpeg",
+                                                       1, NULL);
+        
+        CGImageDestinationAddImage(destination, thumbnail, NULL);
+        CGImageDestinationFinalize(destination);
+        
+        CFRelease(destination);
+        
+        CFRelease(thumbnail);
+        CFRelease(imageSource);
+        
+        return destData;
+    } else {
+        return nil;
+    }
     
-    CGImageDestinationAddImage(destination, thumbnail, NULL);
-    CGImageDestinationFinalize(destination);
-
-    CFRelease(destination);
-
-    CFRelease(thumbnail);
-    CFRelease(imageSource);
-
-    return destData;
 }
 
 @end

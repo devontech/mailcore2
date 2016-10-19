@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPIDLEOPERATION_H_
+#ifndef MAILCORE_MCIMAPIDLEOPERATION_H
 
-#define __MAILCORE_MCIMAPIDLEOPERATION_H_
+#define MAILCORE_MCIMAPIDLEOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPIdleOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPIdleOperation : public IMAPOperation {
     public:
         IMAPIdleOperation();
         virtual ~IMAPIdleOperation();
@@ -32,9 +32,13 @@ namespace mailcore {
     private:
         uint32_t mLastKnownUid;
         bool mSetupSuccess;
-        void prepare();
-        void unprepare();
+        bool mInterrupted;
+        pthread_mutex_t mLock;
+        void prepare(void * data);
+        void unprepare(void * data);
+        bool isInterrupted();
     };
+    
 }
 
 #endif

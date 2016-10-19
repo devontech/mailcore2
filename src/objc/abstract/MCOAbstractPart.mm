@@ -7,7 +7,6 @@
 //
 
 #import "MCOAbstractPart.h"
-#import "MCOAbstractPart+Private.h"
 
 #include "MCAbstractPart.h"
 #include "MCAbstractMessage.h"
@@ -27,17 +26,18 @@
     return _part;
 }
 
-- (id) init
+- (instancetype) init
 {
+    self = [self initWithMCPart:NULL];
     MCAssert(0);
     return nil;
 }
 
-- (id) initWithMCPart:(mailcore::AbstractPart *)part
+- (instancetype) initWithMCPart:(mailcore::AbstractPart *)part
 {
     self = [super init];
     
-    part->retain();
+    MC_SAFE_RETAIN(part);
     _part = part;
     
     return self;
@@ -72,6 +72,7 @@ MCO_OBJC_SYNTHESIZE_STRING(setContentID, contentID)
 MCO_OBJC_SYNTHESIZE_STRING(setContentLocation, contentLocation)
 MCO_OBJC_SYNTHESIZE_STRING(setContentDescription, contentDescription)
 MCO_OBJC_SYNTHESIZE_BOOL(setInlineAttachment, isInlineAttachment)
+MCO_OBJC_SYNTHESIZE_BOOL(setAttachment, isAttachment)
 
 - (MCOAbstractPart *) partForContentID:(NSString *)contentID
 {
@@ -85,6 +86,26 @@ MCO_OBJC_SYNTHESIZE_BOOL(setInlineAttachment, isInlineAttachment)
 
 - (NSString *) decodedStringForData:(NSData *)data
 {
-	return [NSString mco_stringWithMCString:MCO_NATIVE_INSTANCE->decodedStringForData([data mco_mcData])];
+    return [NSString mco_stringWithMCString:MCO_NATIVE_INSTANCE->decodedStringForData([data mco_mcData])];
 }
+
+- (void) setContentTypeParameterValue:(NSString *)value forName:(NSString *)name
+{
+    MCO_NATIVE_INSTANCE->setContentTypeParameter(MCO_FROM_OBJC(mailcore::String, name), MCO_FROM_OBJC(mailcore::String, value));
+}
+
+- (NSString *) contentTypeParameterValueForName:(NSString *)name
+{
+    return MCO_TO_OBJC(MCO_NATIVE_INSTANCE->contentTypeParameterValueForName((MCO_FROM_OBJC(mailcore::String, name))));
+}
+- (void) removeContentTypeParameterForName:(NSString *)name
+{
+    MCO_NATIVE_INSTANCE->removeContentTypeParameter(MCO_FROM_OBJC(mailcore::String, name));
+}
+
+- (NSArray * /* NSString */) allContentTypeParametersNames
+{
+    return MCO_TO_OBJC(MCO_NATIVE_INSTANCE->allContentTypeParametersNames());
+}
+
 @end

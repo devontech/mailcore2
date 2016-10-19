@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPMessageRenderingOperation_H_
+#ifndef MAILCORE_MCIMAPMessageRenderingOperation_H
 
-#define __MAILCORE_MCIMAPMessageRenderingOperation_H_
+#define MAILCORE_MCIMAPMessageRenderingOperation_H
 
 #include <MailCore/MCIMAPOperation.h>
 #include <MailCore/MCIMAPMessage.h>
@@ -17,7 +17,7 @@
 
 namespace mailcore {
     
-    class IMAPMessageRenderingOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPMessageRenderingOperation : public IMAPOperation {
     public:
         IMAPMessageRenderingOperation();
         virtual ~IMAPMessageRenderingOperation();
@@ -40,6 +40,7 @@ namespace mailcore {
         IMAPMessage * mMessage;
         
     };
+    
 }
 
 #endif

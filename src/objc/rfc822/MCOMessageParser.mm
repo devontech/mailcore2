@@ -13,7 +13,6 @@
 
 #import "MCOHTMLRendererDelegate.h"
 #import "NSObject+MCO.h"
-#import "MCOAbstractMessage+Private.h"
 #import "MCOUtils.h"
 #import "MCOAbstractMessageRendererCallback.h"
 
@@ -37,9 +36,9 @@
     return [[[MCOMessageParser alloc] initWithData:data] autorelease];
 }
 
-- (id) initWithData:(NSData *)data
+- (instancetype) initWithData:(NSData *)data
 {
-    mailcore::MessageParser * message = new mailcore::MessageParser([data mco_mcData]);
+    mailcore::MessageParser * message = new mailcore::MessageParser((CFDataRef) data);
     self = [super initWithMCMessage:message];
     MC_SAFE_RELEASE(message);
     return self;
@@ -81,7 +80,12 @@
 
 - (NSString *) plainTextBodyRendering
 {
-    return MCO_OBJC_BRIDGE_GET(plainTextBodyRendering);
+    return [self plainTextBodyRenderingAndStripWhitespace:YES];
+}
+
+- (NSString *) plainTextBodyRenderingAndStripWhitespace:(BOOL)stripWhitespace
+{
+    return MCO_TO_OBJC(MCO_NATIVE_INSTANCE->plainTextBodyRendering(stripWhitespace));
 }
 
 @end

@@ -10,7 +10,6 @@
 
 #include "MCIMAP.h"
 
-#import "MCOAbstractMessage+Private.h"
 #import "MCOUtils.h"
 #import "MCOAbstractMessageRendererCallback.h"
 #import "MCOHTMLRendererDelegate.h"
@@ -25,7 +24,7 @@
     MCORegisterClass(self, &typeid(nativeType));
 }
 
-- (id) init
+- (instancetype) init
 {
     mailcore::IMAPMessage * msg = new mailcore::IMAPMessage();
     self = [self initWithMCMessage:msg];
@@ -42,8 +41,11 @@
 MCO_SYNTHESIZE_NSCODING
 
 MCO_OBJC_SYNTHESIZE_SCALAR(uint32_t, uint32_t, setUid, uid)
+MCO_OBJC_SYNTHESIZE_SCALAR(uint32_t, uint32_t, setSequenceNumber, sequenceNumber)
+MCO_OBJC_SYNTHESIZE_SCALAR(uint32_t, uint32_t, setSize, size)
 MCO_OBJC_SYNTHESIZE_SCALAR(MCOMessageFlag, mailcore::MessageFlag, setFlags, flags)
 MCO_OBJC_SYNTHESIZE_SCALAR(MCOMessageFlag, mailcore::MessageFlag, setOriginalFlags, originalFlags)
+MCO_OBJC_SYNTHESIZE_ARRAY(setCustomFlags, customFlags)
 MCO_OBJC_SYNTHESIZE_SCALAR(uint64_t, uint64_t, setModSeqValue, modSeqValue)
 MCO_OBJC_SYNTHESIZE(AbstractPart, setMainPart, mainPart)
 MCO_OBJC_SYNTHESIZE_ARRAY(setGmailLabels, gmailLabels)

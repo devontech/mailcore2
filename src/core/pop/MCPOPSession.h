@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCPOPSESSION_H_
+#ifndef MAILCORE_MCPOPSESSION_H
 
-#define __MAILCORE_MCPOPSESSION_H_
+#define MAILCORE_MCPOPSESSION_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCMessageConstants.h>
@@ -12,9 +12,8 @@ namespace mailcore {
     class POPMessageInfo;
     class POPProgressCallback;
     class MessageHeader;
-
-    class POPSession : public Object {
-        
+    
+    class MAILCORE_EXPORT POPSession : public Object {
     public:
         POPSession();
         virtual ~POPSession();
@@ -65,7 +64,12 @@ namespace mailcore {
         
         virtual void setConnectionLogger(ConnectionLogger * logger);
         virtual ConnectionLogger * connectionLogger();
-        
+
+    public: // private
+        virtual void lockConnectionLogger();
+        virtual void unlockConnectionLogger();
+        virtual ConnectionLogger * connectionLoggerNoLock();
+
     private:
         String * mHostname;
         unsigned int mPort;
@@ -82,6 +86,7 @@ namespace mailcore {
         int mState;
         
         ConnectionLogger * mConnectionLogger;
+        pthread_mutex_t mConnectionLoggerLock;
         
         void init();
         void bodyProgress(unsigned int current, unsigned int maximum);

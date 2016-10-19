@@ -6,16 +6,17 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCPOPFETCHMESSAGESOPERATION_H_
+#ifndef MAILCORE_MCPOPFETCHMESSAGESOPERATION_H
 
-#define __MAILCORE_MCPOPFETCHMESSAGESOPERATION_H_
+#define MAILCORE_MCPOPFETCHMESSAGESOPERATION_H
 
 #include <MailCore/MCPOPOperation.h>
 
 #ifdef __cplusplus
 
 namespace mailcore {
-    class POPFetchMessagesOperation : public POPOperation {
+    
+    class MAILCORE_EXPORT POPFetchMessagesOperation : public POPOperation {
     public:
         POPFetchMessagesOperation();
         virtual ~POPFetchMessagesOperation();
@@ -28,6 +29,7 @@ namespace mailcore {
     private:
         Array * /* POPMessageInfo */ mMessages;
     };
+    
 }
 
 #endif

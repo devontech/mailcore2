@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPEXPUNGEOPERATION_H_
+#ifndef MAILCORE_MCIMAPEXPUNGEOPERATION_H
 
-#define __MAILCORE_MCIMAPEXPUNGEOPERATION_H_
+#define MAILCORE_MCIMAPEXPUNGEOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPExpungeOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPExpungeOperation : public IMAPOperation {
     public:
         IMAPExpungeOperation();
         virtual ~IMAPExpungeOperation();
@@ -24,6 +24,7 @@ namespace mailcore {
     public: // subclass behavior
         virtual void main();
     };
+    
 }
 
 #endif

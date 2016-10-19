@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCMD5_H_
-#define __MAILCORE_MCMD5_H_
+#ifndef MAILCORE_MCMD5_H
+
+#define MAILCORE_MCMD5_H
 
 #include <MailCore/MCData.h>
 #include <MailCore/MCString.h>
@@ -15,7 +16,10 @@
 #ifdef __cplusplus
 
 namespace mailcore {
+    MAILCORE_EXPORT
     Data * md5Data(Data * data);
+
+    MAILCORE_EXPORT
     String * md5String(Data * data);
 }
 

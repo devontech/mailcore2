@@ -1,13 +1,13 @@
-#ifndef __MAILCORE_MCHASH_H_
+#ifndef MAILCORE_MCHASH_H
 
-#define __MAILCORE_MCHASH_H_
+#define MAILCORE_MCHASH_H
 
 #ifdef __cplusplus
 
 namespace mailcore {
-
+    
     unsigned int hashCompute(const char * key, unsigned int len);
-
+    
 }
 
 #endif

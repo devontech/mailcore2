@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCATTACHMENT_H_
+#ifndef MAILCORE_MCATTACHMENT_H
 
-#define __MAILCORE_MCATTACHMENT_H_
+#define MAILCORE_MCATTACHMENT_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCAbstractPart.h>
@@ -13,7 +13,7 @@ namespace mailcore {
     
     class MessagePart;
     
-    class Attachment : public AbstractPart {
+    class MAILCORE_EXPORT Attachment : public AbstractPart {
     public:
         static String * mimeTypeForFilename(String * filename);
         static Attachment * attachmentWithContentsOfFile(String * filename);
@@ -25,6 +25,9 @@ namespace mailcore {
         Attachment();
         virtual ~Attachment();
         
+        virtual void setPartID(String * partID);
+        virtual String * partID();
+
         virtual void setData(Data * data);
         virtual Data * data();
         virtual String * decodedString();
@@ -39,6 +42,8 @@ namespace mailcore {
         
     private:
         Data * mData;
+        String * mPartID;
+
         void init();
         static void fillMultipartSubAttachments(AbstractMultipart * multipart, struct mailmime * mime);
         static AbstractPart * attachmentsWithMIMEWithMain(struct mailmime * mime, bool isMain);
@@ -46,6 +51,7 @@ namespace mailcore {
         static MessagePart * attachmentWithMessageMIME(struct mailmime * mime);
         static Encoding encodingForMIMEEncoding(struct mailmime_mechanism * mechanism, int defaultMimeEncoding);
         static HashMap * readMimeTypesFile(String * filename);
+        void setContentTypeParameters(HashMap * parameters);
     };
     
 }

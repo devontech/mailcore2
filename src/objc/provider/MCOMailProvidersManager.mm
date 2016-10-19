@@ -26,7 +26,7 @@
     return sharedInstance;
 }
 
-- (id) init
+- (instancetype) init
 {
     NSString * filename;
     
@@ -36,7 +36,7 @@
     if (filename) {
         mailcore::MailProvidersManager::sharedManager()->registerProvidersWithFilename(filename.mco_mcString);
     }
-	
+    
     return self;
 }
 

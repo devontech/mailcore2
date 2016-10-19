@@ -6,14 +6,15 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPFETCHFOLDERSOPERATION_H_
+#ifndef MAILCORE_MCOIMAPFETCHFOLDERSOPERATION_H
 
-#define __MAILCORE_MCOIMAPFETCHFOLDERSOPERATION_H_
+#define MAILCORE_MCOIMAPFETCHFOLDERSOPERATION_H
 
 /** This class implements an operation to fetch a list of folders. */
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPFetchFoldersOperation : MCOIMAPBaseOperation
 
 /** 
@@ -26,8 +27,9 @@
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an 
    error code available in `MCOConstants.h`, `folders` will be nil
 */
-- (void) start:(void (^)(NSError * error, NSArray * /* MCOIMAPFolder */ folders))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, NSArray * /* MCOIMAPFolder */ __nullable folders))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

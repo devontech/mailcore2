@@ -8,14 +8,15 @@
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 
-#ifndef __MAILCORE_MCOCOPYMESSAGESOPERATION_H_
+#ifndef MAILCORE_MCOCOPYMESSAGESOPERATION_H
 
-#define __MAILCORE_MCOCOPYMESSAGESOPERATION_H_
+#define MAILCORE_MCOCOPYMESSAGESOPERATION_H
 
 /** Implements an operation for copying messages between folders */
 
 @class MCOIndexSet;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPCopyMessagesOperation : MCOIMAPBaseOperation
 
 /** 
@@ -30,8 +31,9 @@
    error code available in `MCOConstants.h`, `destUids` will be nil
 */
 
-- (void) start:(void (^)(NSError * error, MCOIndexSet * destUids))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, NSDictionary * __nullable uidMapping))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

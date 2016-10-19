@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPIDENTITY_H_
+#ifndef MAILCORE_MCOIMAPIDENTITY_H
 
-#define __MAILCORE_MCOIMAPIDENTITY_H_
+#define MAILCORE_MCOIMAPIDENTITY_H
 
 #import <Foundation/Foundation.h>
 
@@ -36,6 +36,9 @@
 
 /** Retrieve a custom field in the identity */
 - (void) setInfo:(NSString *)value forKey:(NSString *)key;
+
+/** Remove all info keys including vendor, name and version */
+- (void) removeAllInfos;
 
 @end
 

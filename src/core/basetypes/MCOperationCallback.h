@@ -1,18 +1,20 @@
-#ifndef __MAILCORE_MCOPERATIONCALLBACK_H_
+#ifndef MAILCORE_MCOPERATIONCALLBACK_H
 
-#define __MAILCORE_MCOPERATIONCALLBACK_H_
+#define MAILCORE_MCOPERATIONCALLBACK_H
+
+#include <MailCore/MCUtils.h>
 
 #ifdef __cplusplus
 
 namespace mailcore {
-	
-	class Operation;
-	
-	class OperationCallback {
-	public:
-		virtual void operationFinished(Operation * op) {}
-	};
-	
+    
+    class Operation;
+    
+    class MAILCORE_EXPORT OperationCallback {
+    public:
+        virtual void operationFinished(Operation * op) {}
+    };
+    
 }
 
 #endif

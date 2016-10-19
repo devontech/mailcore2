@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPCAPABILITYOPERATION_H_
+#ifndef MAILCORE_MCIMAPCAPABILITYOPERATION_H
 
-#define __MAILCORE_MCIMAPCAPABILITYOPERATION_H_
+#define MAILCORE_MCIMAPCAPABILITYOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPCapabilityOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPCapabilityOperation : public IMAPOperation {
     public:
         IMAPCapabilityOperation();
         virtual ~IMAPCapabilityOperation();
@@ -30,6 +30,7 @@ namespace mailcore {
     private:
         IndexSet * mCapabilities;
     };
+    
 }
 
 #endif

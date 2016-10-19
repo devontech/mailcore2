@@ -1,5 +1,6 @@
-#ifndef __MAILCORE_MCMESSAGECONSTANTS_H_
-#define __MAILCORE_MCMESSAGECONSTANTS_H_
+#ifndef MAILCORE_MCMESSAGECONSTANTS_H
+
+#define MAILCORE_MCMESSAGECONSTANTS_H
 
 #ifdef __cplusplus
 
@@ -10,7 +11,7 @@ namespace mailcore {
         ConnectionTypeStartTLS          = 1 << 1,
         ConnectionTypeTLS               = 1 << 2,
     };
-
+    
     enum AuthType {
         AuthTypeSASLNone          = 0,
         AuthTypeSASLCRAMMD5       = 1 << 0,
@@ -22,8 +23,9 @@ namespace mailcore {
         AuthTypeSASLNTLM          = 1 << 6,
         AuthTypeSASLKerberosV4    = 1 << 7,
         AuthTypeXOAuth2           = 1 << 8,
+        AuthTypeXOAuth2Outlook    = 1 << 9,
     };
-
+    
     enum IMAPFolderFlag {
         IMAPFolderFlagNone        = 0,
         IMAPFolderFlagMarked      = 1 << 0,
@@ -42,8 +44,10 @@ namespace mailcore {
         IMAPFolderFlagAll = IMAPFolderFlagAllMail,
         IMAPFolderFlagJunk = IMAPFolderFlagSpam,
         IMAPFolderFlagFlagged = IMAPFolderFlagStarred,
+        IMAPFolderFlagFolderTypeMask = IMAPFolderFlagInbox | IMAPFolderFlagSentMail | IMAPFolderFlagStarred | IMAPFolderFlagAllMail |
+          IMAPFolderFlagTrash| IMAPFolderFlagDrafts | IMAPFolderFlagSpam | IMAPFolderFlagImportant | IMAPFolderFlagArchive,
     };
-
+    
     enum MessageFlag {
         MessageFlagNone          = 0,
         MessageFlagSeen          = 1 << 0,
@@ -55,8 +59,11 @@ namespace mailcore {
         MessageFlagForwarded     = 1 << 6,
         MessageFlagSubmitPending = 1 << 7,
         MessageFlagSubmitted     = 1 << 8,
+        MessageFlagMaskAll = MessageFlagSeen | MessageFlagAnswered | MessageFlagFlagged |
+        MessageFlagDeleted | MessageFlagDraft | MessageFlagMDNSent | MessageFlagForwarded |
+        MessageFlagSubmitPending | MessageFlagSubmitted,
     } ;
-
+    
     enum IMAPMessagesRequestKind {
         IMAPMessagesRequestKindUid           = 0, // This is the default and it's always fetched
         IMAPMessagesRequestKindFlags         = 1 << 0,
@@ -69,25 +76,26 @@ namespace mailcore {
         IMAPMessagesRequestKindGmailMessageID = 1 << 7,
         IMAPMessagesRequestKindGmailThreadID  = 1 << 8,
         IMAPMessagesRequestKindExtraHeaders  = 1 << 9,
+        IMAPMessagesRequestKindSize          = 1 << 10,
     };
-
+    
     enum IMAPFetchRequestType {
         IMAPFetchRequestTypeUID = 0,
         IMAPFetchRequestTypeSequence = 1
     };
-
+    
     enum IMAPStoreFlagsRequestKind {
         IMAPStoreFlagsRequestKindAdd,
         IMAPStoreFlagsRequestKindRemove,
         IMAPStoreFlagsRequestKindSet,
     };
-
+    
     enum IMAPWorkaround {
         IMAPWorkaroundGmail = 1 << 0,
         IMAPWorkaroundYahoo = 1 << 1,
         IMAPWorkaroundExchange2003 = 1 << 2,
     };
-
+    
     enum IMAPCapability {
         IMAPCapabilityACL,
         IMAPCapabilityBinary,
@@ -99,6 +107,7 @@ namespace mailcore {
         IMAPCapabilityIdle,
         IMAPCapabilityId,
         IMAPCapabilityLiteralPlus,
+        IMAPCapabilityMove,
         IMAPCapabilityMultiAppend,
         IMAPCapabilityNamespace,
         IMAPCapabilityQResync,
@@ -123,9 +132,10 @@ namespace mailcore {
         IMAPCapabilityAuthSKey,
         IMAPCapabilityAuthSRP,
         IMAPCapabilityXOAuth2,
+        IMAPCapabilityXYMHighestModseq,
         IMAPCapabilityGmail,
     };
-
+    
     enum POPCapability {
         POPCapabilityNone,
         POPCapabilityStartTLS,
@@ -148,7 +158,7 @@ namespace mailcore {
         POPCapabilityAuthSKey,
         POPCapabilityAuthSRP,
     };
-
+    
     enum Encoding {
         Encoding7Bit = 0,            // should match MAILIMAP_BODY_FLD_ENC_7BIT
         Encoding8Bit = 1,            // should match MAILIMAP_BODY_FLD_ENC_8BIT
@@ -161,18 +171,47 @@ namespace mailcore {
     };
     
     enum IMAPSearchKind {
+        IMAPSearchKindAll,
         IMAPSearchKindNone,
         IMAPSearchKindFrom,
-        IMAPSearchKindRecipient,
+        IMAPSearchKindTo,
+        IMAPSearchKindCc,
+        IMAPSearchKindBcc,
+        IMAPSearchKindRecipient,   // Recipient is the combination of To, Cc and Bcc
         IMAPSearchKindSubject,
         IMAPSearchKindContent,
+        IMAPSearchKindBody,
+        IMAPSearchKindUIDs,
+        IMAPSearchKindNumbers,
         IMAPSearchKindHeader,
+        IMAPSearchKindRead,
+        IMAPSearchKindUnread,
+        IMAPSearchKindFlagged,
+        IMAPSearchKindUnflagged,
+        IMAPSearchKindAnswered,
+        IMAPSearchKindUnanswered,
+        IMAPSearchKindDraft,
+        IMAPSearchKindUndraft,
+        IMAPSearchKindDeleted,
+        IMAPSearchKindSpam,
+        IMAPSearchKindBeforeDate,
+        IMAPSearchKindOnDate,
+        IMAPSearchKindSinceDate,
+        IMAPSearchKindBeforeReceivedDate,
+        IMAPSearchKindOnReceivedDate,
+        IMAPSearchKindSinceReceivedDate,
+        IMAPSearchKindSizeLarger,
+        IMAPSearchKindSizeSmaller,
+        IMAPSearchKindGmailThreadID,
+        IMAPSearchKindGmailMessageID,
+        IMAPSearchKindGmailRaw,
         IMAPSearchKindOr,
         IMAPSearchKindAnd,
+        IMAPSearchKindNot,
     };
     
     enum ErrorCode {
-        ErrorNone,
+        ErrorNone, // 0
         ErrorConnection,
         ErrorTLSNotAvailable,
         ErrorParse,
@@ -182,7 +221,7 @@ namespace mailcore {
         ErrorGmailExceededBandwidthLimit,
         ErrorGmailTooManySimultaneousConnections,
         ErrorMobileMeMoved,
-        ErrorYahooUnavailable,
+        ErrorYahooUnavailable, // 10
         ErrorNonExistantFolder,
         ErrorRename,
         ErrorDelete,
@@ -192,7 +231,7 @@ namespace mailcore {
         ErrorCopy,
         ErrorExpunge,
         ErrorFetch,
-        ErrorIdle,
+        ErrorIdle, // 20
         ErrorIdentity,
         ErrorNamespace,
         ErrorStore,
@@ -202,7 +241,7 @@ namespace mailcore {
         ErrorStorageLimit,
         ErrorSendMessageNotAllowed,
         ErrorNeedsConnectToWebmail,
-        ErrorSendMessage,
+        ErrorSendMessage, // 30
         ErrorAuthenticationRequired,
         ErrorFetchMessageList,
         ErrorDeleteMessage,
@@ -212,6 +251,13 @@ namespace mailcore {
         ErrorNoSender,
         ErrorNoRecipient,
         ErrorNoop,
+        ErrorGmailApplicationSpecificPasswordRequired, // 40
+        ErrorServerDate,
+        ErrorNoValidServerFound,
+        ErrorCustomCommand,
+        ErrorYahooSendMessageSpamSuspected,
+        ErrorYahooSendMessageDailyLimitExceeded,
+        ErrorOutlookLoginViaWebBrowser,
     };
     
     enum PartType {
@@ -220,6 +266,7 @@ namespace mailcore {
         PartTypeMultipartMixed,
         PartTypeMultipartRelated,
         PartTypeMultipartAlternative,
+        PartTypeMultipartSigned,
     };
     
     // Private type - It should not be used directly.
@@ -227,8 +274,10 @@ namespace mailcore {
         IMAPMessageRenderingTypeHTML,
         IMAPMessageRenderingTypeHTMLBody,
         IMAPMessageRenderingTypePlainText,
-        IMAPMessageRenderingTypePlainTextBody
+        IMAPMessageRenderingTypePlainTextBody,
+        IMAPMessageRenderingTypePlainTextBodyAndStripWhitespace,
     };
+    
 }
 
 #endif

@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPDELETEFOLDEROPERATION_H_
-#define __MAILCORE_MCIMAPDELETEFOLDEROPERATION_H_
+#ifndef MAILCORE_MCIMAPDELETEFOLDEROPERATION_H
+
+#define MAILCORE_MCIMAPDELETEFOLDEROPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -15,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPDeleteFolderOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPDeleteFolderOperation : public IMAPOperation {
     public:
         IMAPDeleteFolderOperation();
         virtual ~IMAPDeleteFolderOperation();
@@ -23,6 +24,7 @@ namespace mailcore {
     public: // subclass behavior
         virtual void main();
     };
+    
 }
 
 #endif

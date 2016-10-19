@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPFETCHFOLDERSOPERATION_H_
+#ifndef MAILCORE_MCIMAPFETCHFOLDERSOPERATION_H
 
-#define __MAILCORE_MCIMAPFETCHFOLDERSOPERATION_H_
+#define MAILCORE_MCIMAPFETCHFOLDERSOPERATION_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCIMAPOperation.h>
@@ -17,7 +17,7 @@
 
 namespace mailcore {
     
-    class IMAPFetchFoldersOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPFetchFoldersOperation : public IMAPOperation {
     public:
         IMAPFetchFoldersOperation();
         virtual ~IMAPFetchFoldersOperation();
@@ -32,11 +32,11 @@ namespace mailcore {
         virtual void main();
         
     private:
-        String * /* IMAPFolder */ mFolder;
         bool mFetchSubscribedEnabled;
         Array * mFolders;
         
     };
+    
 }
 
 #endif

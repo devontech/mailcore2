@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCSMTPOPERATION_H_
+#ifndef MAILCORE_MCSMTPOPERATION_H
 
-#define __MAILCORE_MCSMTPOPERATION_H_
+#define MAILCORE_MCSMTPOPERATION_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCSMTPProgressCallback.h>
@@ -16,11 +16,11 @@
 #ifdef __cplusplus
 
 namespace mailcore {
-
+    
     class SMTPAsyncSession;
     class SMTPOperationCallback;
     
-    class SMTPOperation : public Operation, public SMTPProgressCallback {
+    class MAILCORE_EXPORT SMTPOperation : public Operation, public SMTPProgressCallback {
     public:
         SMTPOperation();
         virtual ~SMTPOperation();
@@ -34,6 +34,10 @@ namespace mailcore {
         virtual void setError(ErrorCode error);
         virtual ErrorCode error();
         
+        virtual String * lastSMTPResponse();
+
+        virtual int lastSMTPResponseCode();
+
         virtual void start();
         
     private:

@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOPERATION_PRIVATE_H_
+#ifndef MAILCORE_MCOPERATION_PRIVATE_H
 
-#define __MAILCORE_MCOPERATION_PRIVATE_H_
+#define MAILCORE_MCOPERATION_PRIVATE_H
 
 #ifdef __cplusplus
 namespace mailcore {
@@ -20,7 +20,7 @@ namespace mailcore {
 
 @interface MCOOperation (Private)
 #ifdef __cplusplus
-- (id) initWithMCOperation:(mailcore::Operation *)op;
+- (instancetype) initWithMCOperation:(mailcore::Operation *)op;
 #endif
 - (void) start;
 @end

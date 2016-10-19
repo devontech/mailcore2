@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPCAPABILITYOPERATION_H_
+#ifndef MAILCORE_MCOIMAPCAPABILITYOPERATION_H
 
-#define __MAILCORE_MCOIMAPCAPABILITYOPERATION_H_
+#define MAILCORE_MCOIMAPCAPABILITYOPERATION_H
 
 /** 
  This class implements an operation to query for IMAP capabilities, 
@@ -19,6 +19,7 @@
 
 @class MCOIndexSet;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPCapabilityOperation : MCOIMAPBaseOperation
 
 
@@ -33,8 +34,9 @@
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an 
    error code available in MCOConstants.h, `capabilities` will be nil
 */
-- (void) start:(void (^)(NSError * error, MCOIndexSet * capabilities))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, MCOIndexSet * __nullable capabilities))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

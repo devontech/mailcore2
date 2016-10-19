@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPMESSAGERENDERINGOPERATION_H_
+#ifndef MAILCORE_MCOIMAPMESSAGERENDERINGOPERATION_H
 
-#define __MAILCORE_MCOIMAPMESSAGERENDERINGOPERATION_H_
+#define MAILCORE_MCOIMAPMESSAGERENDERINGOPERATION_H
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 
@@ -16,6 +16,7 @@
  The class is used to get the HTML string of a message.
  */
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPMessageRenderingOperation : MCOIMAPBaseOperation
 
 /**
@@ -28,8 +29,9 @@
  - On failure, `error` will be set and `htmlString` will be nil
  */
 
-- (void) start:(void (^)(NSString * htmlString, NSError * error))completionBlock;
+- (void) start:(void (^)(NSString * __nullable htmlString, NSError * __nullable error))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

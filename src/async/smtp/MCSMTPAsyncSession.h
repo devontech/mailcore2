@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCSMTPASYNCSESSION_H
+#ifndef MAILCORE_MCSMTPASYNCSESSION_H
 
-#define __MAILCORE_MCSMTPASYNCSESSION_H
+#define MAILCORE_MCSMTPASYNCSESSION_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCMessageConstants.h>
@@ -8,15 +8,15 @@
 #ifdef __cplusplus
 
 namespace mailcore {
-	
+    
     class MessageBuilder;
     class SMTPOperation;
     class SMTPSession;
     class Address;
     class SMTPOperationQueueCallback;
     class SMTPConnectionLogger;
-
-    class SMTPAsyncSession : public Object {
+    
+    class MAILCORE_EXPORT SMTPAsyncSession : public Object {
     public:
         SMTPAsyncSession();
         virtual ~SMTPAsyncSession();
@@ -54,26 +54,42 @@ namespace mailcore {
         virtual void setConnectionLogger(ConnectionLogger * logger);
         virtual ConnectionLogger * connectionLogger();
         
+#ifdef __APPLE__
+        virtual void setDispatchQueue(dispatch_queue_t dispatchQueue);
+        virtual dispatch_queue_t dispatchQueue();
+#endif
+
+        virtual void setOperationQueueCallback(OperationQueueCallback * callback);
+        virtual OperationQueueCallback * operationQueueCallback();
+        virtual bool isOperationQueueRunning();
+        virtual void cancelAllOperations();
+
+        virtual SMTPOperation * loginOperation();
         virtual SMTPOperation * sendMessageOperation(Data * messageData);
         virtual SMTPOperation * sendMessageOperation(Address * from, Array * recipients,
                                                      Data * messageData);
+        virtual SMTPOperation * sendMessageOperation(Address * from, Array * recipients,
+                                                     String * filename);
         virtual SMTPOperation * checkAccountOperation(Address * from);
         
         virtual SMTPOperation * noopOperation();
         
+        virtual SMTPOperation * disconnectOperation();
+
     public: // private
         virtual void runOperation(SMTPOperation * operation);
         virtual SMTPSession * session();
         virtual void tryAutomaticDisconnect();
         virtual void logConnection(ConnectionLogType logType, Data * buffer);
         
-        private:
+    private:
         SMTPSession * mSession;
         OperationQueue * mQueue;
         SMTPOperationQueueCallback * mQueueCallback;
         ConnectionLogger * mConnectionLogger;
         pthread_mutex_t mConnectionLoggerLock;
         SMTPConnectionLogger * mInternalLogger;
+        OperationQueueCallback * mOperationQueueCallback;
         
         virtual void tryAutomaticDisconnectAfterDelay(void * context);
     };

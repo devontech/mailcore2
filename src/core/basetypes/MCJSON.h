@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCJSON_H_
-#define __MAILCORE_MCJSON_H_
+#ifndef MAILCORE_MCJSON_H
+
+#define MAILCORE_MCJSON_H
 
 #include <MailCore/MCObject.h>
 #include <MailCore/MCHashMap.h>
@@ -19,10 +20,10 @@
 #ifdef __cplusplus
 
 namespace mailcore {
-
+    
     class Null;
     
-    class JSON {
+    class MAILCORE_EXPORT JSON {
     public:
         static String * objectToJSONString(Object * object);
         static Data * objectToJSONData(Object * object);

@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPFOLDERINFOOPERATION_H_
+#ifndef MAILCORE_MCOIMAPFOLDERINFOOPERATION_H
 
-#define __MAILCORE_MCOIMAPFOLDERINFOOPERATION_H_
+#define MAILCORE_MCOIMAPFOLDERINFOOPERATION_H
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 
@@ -19,6 +19,7 @@
 
 @class MCOIMAPFolderInfo;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPFolderInfoOperation : MCOIMAPBaseOperation
 
 /** 
@@ -32,8 +33,9 @@
    error code available in `MCOConstants.h`, `info` will be nil
 */
 
-- (void) start:(void (^)(NSError * error, MCOIMAPFolderInfo * info))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, MCOIMAPFolderInfo * __nullable info))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPFETCHCONTENTOPERATION_H_
+#ifndef MAILCORE_MCOIMAPFETCHCONTENTOPERATION_H
 
-#define __MAILCORE_MCOIMAPFETCHCONTENTOPERATION_H_
+#define MAILCORE_MCOIMAPFETCHCONTENTOPERATION_H
 
 /** 
  This class implements an operation to fetch the content of a message.
@@ -18,6 +18,7 @@
 #import <MailCore/MCOIMAPBaseOperation.h>
 #import <MailCore/MCOConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPFetchContentOperation : MCOIMAPBaseOperation
 
 /** 
@@ -36,8 +37,9 @@
    error code available in `MCOConstants.h`, `data` will be nil
 */
 
-- (void) start:(void (^)(NSError * error, NSData * data))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, NSData * __nullable data))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

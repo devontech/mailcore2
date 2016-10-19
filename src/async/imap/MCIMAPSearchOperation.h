@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPSEARCHOPERATION_H_
+#ifndef MAILCORE_MCIMAPSEARCHOPERATION_H
 
-#define __MAILCORE_MCIMAPSEARCHOPERATION_H_
+#define MAILCORE_MCIMAPSEARCHOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 #include <MailCore/MCMessageConstants.h>
@@ -19,7 +19,7 @@ namespace mailcore {
     
     class IMAPSearchExpression;
     
-    class IMAPSearchOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPSearchOperation : public IMAPOperation {
     public:
         IMAPSearchOperation();
         virtual ~IMAPSearchOperation();
@@ -46,6 +46,7 @@ namespace mailcore {
         IndexSet * mUids;
         
     };
+    
 }
 
 #endif

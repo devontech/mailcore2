@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPCREATEFOLDEROPERATION_H_
-#define __MAILCORE_MCIMAPCREATEFOLDEROPERATION_H_
+#ifndef MAILCORE_MCIMAPCREATEFOLDEROPERATION_H
+
+#define MAILCORE_MCIMAPCREATEFOLDEROPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -15,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPCreateFolderOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPCreateFolderOperation : public IMAPOperation {
     public:
         IMAPCreateFolderOperation();
         virtual ~IMAPCreateFolderOperation();
@@ -23,6 +24,7 @@ namespace mailcore {
     public: // subclass behavior
         virtual void main();
     };
+    
 }
 
 #endif

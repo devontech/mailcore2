@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCPOPCHECKACCOUNTOPERATION_H_
-#define __MAILCORE_MCPOPCHECKACCOUNTOPERATION_H_
+#ifndef MAILCORE_MCPOPCHECKACCOUNTOPERATION_H
+
+#define MAILCORE_MCPOPCHECKACCOUNTOPERATION_H
 
 #include <MailCore/MCPOPOperation.h>
 
@@ -15,7 +16,7 @@
 
 namespace mailcore {
     
-    class POPCheckAccountOperation : public POPOperation {
+    class MAILCORE_EXPORT POPCheckAccountOperation : public POPOperation {
     public:
         POPCheckAccountOperation();
         virtual ~POPCheckAccountOperation();

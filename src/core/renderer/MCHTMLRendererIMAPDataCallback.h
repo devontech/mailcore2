@@ -6,17 +6,18 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCHTMLRENDERERIMAPDATACALLBACK_H_
+#ifndef MAILCORE_MCHTMLRENDERERIMAPDATACALLBACK_H
 
-#define __MAILCORE_MCHTMLRENDERERIMAPDATACALLBACK_H_
+#define MAILCORE_MCHTMLRENDERERIMAPDATACALLBACK_H
 
 #include "MCHTMLRendererCallback.h"
+#include <MailCore/MCUtils.h>
 
 #ifdef __cplusplus
 
 namespace mailcore {
     
-    class HTMLRendererIMAPDataCallback : public Object, public HTMLRendererIMAPCallback {
+    class MAILCORE_EXPORT HTMLRendererIMAPDataCallback : public Object, public HTMLRendererIMAPCallback {
     public:
         HTMLRendererIMAPDataCallback(IMAPSession * session, uint32_t uid);
         

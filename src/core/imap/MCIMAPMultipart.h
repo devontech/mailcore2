@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCIMAPMULTIPART_H
+#ifndef MAILCORE_MCIMAPMULTIPART_H
 
-#define __MAILCORE_MCIMAPMULTIPART_H
+#define MAILCORE_MCIMAPMULTIPART_H
 
 #include <MailCore/MCAbstractMultipart.h>
 
@@ -8,7 +8,7 @@
 
 namespace mailcore {
     
-    class IMAPMultipart : public AbstractMultipart {
+    class MAILCORE_EXPORT IMAPMultipart : public AbstractMultipart {
     public:
         IMAPMultipart();
         virtual ~IMAPMultipart();
@@ -26,6 +26,7 @@ namespace mailcore {
         String * mPartID;
         void init();
     };
+    
 }
 
 #endif

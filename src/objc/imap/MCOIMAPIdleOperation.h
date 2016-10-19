@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPIDLEOPERATION_H_
+#ifndef MAILCORE_MCOIMAPIDLEOPERATION_H
 
-#define __MAILCORE_MCOIMAPIDLEOPERATION_H_
+#define MAILCORE_MCOIMAPIDLEOPERATION_H
 
 /** 
  This class implements an IMAP IDLE. IDLE is used to keep a connection
@@ -18,6 +18,7 @@
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPIdleOperation : MCOIMAPBaseOperation
 
 /** Stop the current IDLE session */
@@ -33,8 +34,9 @@
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an 
    error code available in `MCOConstants.h`
 */
-- (void) start:(void (^)(NSError * error))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

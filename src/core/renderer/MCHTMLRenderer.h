@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCHTMLRENDERER_H_
-#define __MAILCORE_MCHTMLRENDERER_H_
+#ifndef MAILCORE_MCHTMLRENDERER_H
+
+#define MAILCORE_MCHTMLRENDERER_H
 
 #include <MailCore/MCAbstract.h>
 #include <MailCore/MCIMAP.h>
@@ -20,10 +21,12 @@ namespace mailcore {
     class MessageParser;
     class HTMLRendererTemplateCallback;
     class HTMLRendererIMAPCallback;
+    class HTMLRendererRFC822Callback;
     
-    class HTMLRenderer {
+    class MAILCORE_EXPORT HTMLRenderer {
     public:
         static String * htmlForRFC822Message(MessageParser * message,
+                                             HTMLRendererRFC822Callback * dataCallback,
                                              HTMLRendererTemplateCallback * htmlCallback);
         
         static String * htmlForIMAPMessage(String * folder,
@@ -33,7 +36,9 @@ namespace mailcore {
         
         static Array * /* AbstractPart */ attachmentsForMessage(AbstractMessage * message);
         static Array * /* AbstractPart */ htmlInlineAttachmentsForMessage(AbstractMessage * message);
+        static Array * /* AbstractPart */ requiredPartsForRendering(AbstractMessage * message);
     };
+    
 };
 
 #endif

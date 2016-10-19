@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPNOOPOPERATION_H_
+#ifndef MAILCORE_MCIMAPNOOPOPERATION_H
 
-#define __MAILCORE_MCIMAPNOOPOPERATION_H_
+#define MAILCORE_MCIMAPNOOPOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,7 +16,7 @@
 
 namespace mailcore {
     
-    class IMAPNoopOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPNoopOperation : public IMAPOperation {
     public:
         IMAPNoopOperation();
         virtual ~IMAPNoopOperation();
@@ -24,6 +24,7 @@ namespace mailcore {
     public: // subclass behavior
         virtual void main();
     };
+    
 }
 
 #endif

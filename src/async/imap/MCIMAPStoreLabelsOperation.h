@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCIMAPSTORELABELSOPERATION_H_
+#ifndef MAILCORE_MCIMAPSTORELABELSOPERATION_H
 
-#define __MAILCORE_MCIMAPSTORELABELSOPERATION_H_
+#define MAILCORE_MCIMAPSTORELABELSOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -16,13 +16,16 @@
 
 namespace mailcore {
     
-    class IMAPStoreLabelsOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPStoreLabelsOperation : public IMAPOperation {
     public:
         IMAPStoreLabelsOperation();
         virtual ~IMAPStoreLabelsOperation();
         
         virtual void setUids(IndexSet * uids);
         virtual IndexSet * uids();
+        
+        virtual void setNumbers(IndexSet * numbers);
+        virtual IndexSet * numbers();
         
         virtual void setKind(IMAPStoreFlagsRequestKind kind);
         virtual IMAPStoreFlagsRequestKind kind();
@@ -35,10 +38,12 @@ namespace mailcore {
         
     private:
         IndexSet * mUids;
+        IndexSet * mNumbers;
         IMAPStoreFlagsRequestKind mKind;
         Array * /* String */ mLabels;
         
     };
+    
 }
 
 #endif

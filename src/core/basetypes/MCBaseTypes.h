@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCBASETYPES_H_
+#ifndef MAILCORE_MCBASETYPES_H
 
-#define __MAILCORE_MCBASETYPES_H_
+#define MAILCORE_MCBASETYPES_H
 
 #include <MailCore/MCAutoreleasePool.h>
 #include <MailCore/MCObject.h>
@@ -26,5 +26,6 @@
 #include <MailCore/MCICUTypes.h>
 #include <MailCore/MCIterator.h>
 #include <MailCore/MCConnectionLogger.h>
+#include <MailCore/MCHTMLCleaner.h>
 
 #endif

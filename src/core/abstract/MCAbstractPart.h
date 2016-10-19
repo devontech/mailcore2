@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_MCABSTRACTPART_H_
+#ifndef MAILCORE_MCABSTRACTPART_H
 
-#define __MAILCORE_MCABSTRACTPART_H_
+#define MAILCORE_MCABSTRACTPART_H
 
 #include <MailCore/MCBaseTypes.h>
 #include <MailCore/MCMessageConstants.h>
@@ -8,10 +8,10 @@
 #ifdef __cplusplus
 
 namespace mailcore {
-
+    
     class AbstractMessage;
-
-    class AbstractPart : public Object {
+    
+    class MAILCORE_EXPORT AbstractPart : public Object {
     public:
         AbstractPart();
         virtual ~AbstractPart();
@@ -36,17 +36,26 @@ namespace mailcore {
         
         virtual String * contentLocation();
         virtual void setContentLocation(String * contentLocation);
-
+        
         virtual String * contentDescription();
         virtual void setContentDescription(String * contentDescription);
-
+        
         virtual bool isInlineAttachment();
         virtual void setInlineAttachment(bool inlineAttachment);
         
+        virtual bool isAttachment();
+        virtual void setAttachment(bool attachment);
+
         virtual AbstractPart * partForContentID(String * contentID);
         virtual AbstractPart * partForUniqueID(String * uniqueID);
         
         virtual String * decodedStringForData(Data * data);
+        
+        void setContentTypeParameters(HashMap * parameters);
+        Array * allContentTypeParametersNames();
+        void setContentTypeParameter(String * name, String * object);
+        void removeContentTypeParameter(String * name);
+        String * contentTypeParameterValueForName(String * name);
         
     public: // subclass behavior
         AbstractPart(AbstractPart * other);
@@ -69,7 +78,9 @@ namespace mailcore {
         String * mContentLocation;
         String * mContentDescription;
         bool mInlineAttachment;
+        bool mAttachment;
         PartType mPartType;
+        HashMap * mContentTypeParameters;
         void init();
     };
     

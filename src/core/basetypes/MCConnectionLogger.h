@@ -6,10 +6,13 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_CONNECTION_LOGGER_H_
-#define __MAILCORE_CONNECTION_LOGGER_H_
+#ifndef MAILCORE_CONNECTION_LOGGER_H
+
+#define MAILCORE_CONNECTION_LOGGER_H
 
 #include <stdlib.h>
+
+#include <MailCore/MCUtils.h>
 
 #ifdef __cplusplus
 
@@ -32,7 +35,7 @@ namespace mailcore {
         ConnectionLogTypeErrorSent,
     };
     
-    class ConnectionLogger {
+    class MAILCORE_EXPORT ConnectionLogger {
     public:
         virtual void log(void * sender, ConnectionLogType logType, Data * buffer) {}
     };

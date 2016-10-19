@@ -6,13 +6,14 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOSMTPNOOPOPERATION_H_
+#ifndef MAILCORE_MCOSMTPNOOPOPERATION_H
 
-#define __MAILCORE_MCOSMTPNOOPOPERATION_H_
+#define MAILCORE_MCOSMTPNOOPOPERATION_H
 
 #import <MailCore/MCOSMTPOperation.h>
 
 /** This is an asynchronous operation that will perform a noop operation through SMTP. */
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOSMTPNoopOperation : MCOSMTPOperation
 
 /*
@@ -25,8 +26,9 @@
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an
  error code available in MCOConstants.h,
  */
-- (void) start:(void (^)(NSError * error))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

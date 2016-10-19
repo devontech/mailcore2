@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCSMTPCHECKACCOUNTOPERATION_H_
+#ifndef MAILCORE_MCSMTPCHECKACCOUNTOPERATION_H
 
-#define __MAILCORE_MCSMTPCHECKACCOUNTOPERATION_H_
+#define MAILCORE_MCSMTPCHECKACCOUNTOPERATION_H
 
 #include <MailCore/MCSMTPOperation.h>
 #include <MailCore/MCAbstract.h>
@@ -17,7 +17,7 @@
 
 namespace mailcore {
     
-    class SMTPCheckAccountOperation : public SMTPOperation {
+    class MAILCORE_EXPORT SMTPCheckAccountOperation : public SMTPOperation {
     public:
         SMTPCheckAccountOperation();
         virtual ~SMTPCheckAccountOperation();

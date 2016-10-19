@@ -6,16 +6,26 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOABSTRACTMESSAGE_H_
+#ifndef MAILCORE_MCOABSTRACTMESSAGE_H
 
-#define __MAILCORE_MCOABSTRACTMESSAGE_H_
+#define MAILCORE_MCOABSTRACTMESSAGE_H
 
 #import <Foundation/Foundation.h>
 
 @class MCOMessageHeader;
 @class MCOAbstractPart;
 
+#ifdef __cplusplus
+namespace mailcore {
+    class AbstractMessage;
+}
+#endif
+
 @interface MCOAbstractMessage : NSObject <NSCopying>
+
+#ifdef __cplusplus
+- (instancetype) initWithMCMessage:(mailcore::AbstractMessage *)message NS_DESIGNATED_INITIALIZER;
+#endif
 
 /** Header of the message. */
 @property (nonatomic, strong) MCOMessageHeader * header;
@@ -37,6 +47,12 @@
  It will return an array of MCOAttachment for MCOMessageParser.
  It will return an array of MCOAttachment for MCOMessageBuilder. */
 - (NSArray * /* MCOAbstractPart */) htmlInlineAttachments;
+
+/**
+ Returns parts required to render the message as plain text or html.
+ This does not include inline images and attachments, but only the text content
+ */
+- (NSArray *) requiredPartsForRendering;
 
 @end
 

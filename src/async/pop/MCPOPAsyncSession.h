@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCPOPASYNCSESSION_H_
+#ifndef MAILCORE_MCPOPASYNCSESSION_H
 
-#define __MAILCORE_MCPOPASYNCSESSION_H_
+#define MAILCORE_MCPOPASYNCSESSION_H
 
 #include <MailCore/MCBaseTypes.h>
 
@@ -25,7 +25,7 @@ namespace mailcore {
     class POPOperationQueueCallback;
     class POPConnectionLogger;
     
-    class POPAsyncSession : public Object {
+    class MAILCORE_EXPORT POPAsyncSession : public Object {
     public:
         POPAsyncSession();
         virtual ~POPAsyncSession();
@@ -57,6 +57,16 @@ namespace mailcore {
         virtual void setConnectionLogger(ConnectionLogger * logger);
         virtual ConnectionLogger * connectionLogger();
         
+#ifdef __APPLE__
+        virtual void setDispatchQueue(dispatch_queue_t dispatchQueue);
+        virtual dispatch_queue_t dispatchQueue();
+#endif
+
+        virtual void setOperationQueueCallback(OperationQueueCallback * callback);
+        virtual OperationQueueCallback * operationQueueCallback();
+        virtual bool isOperationQueueRunning();
+        virtual void cancelAllOperations();
+
         virtual POPFetchMessagesOperation * fetchMessagesOperation();
         
         virtual POPFetchHeaderOperation * fetchHeaderOperation(unsigned int index);
@@ -79,12 +89,14 @@ namespace mailcore {
         ConnectionLogger * mConnectionLogger;
         pthread_mutex_t mConnectionLoggerLock;
         POPConnectionLogger * mInternalLogger;
+        OperationQueueCallback * mOperationQueueCallback;
         
     public: // private
         virtual void runOperation(POPOperation * operation);
         virtual POPSession * session();
         virtual void logConnection(ConnectionLogType logType, Data * buffer);
     };
+    
 }
 
 #endif

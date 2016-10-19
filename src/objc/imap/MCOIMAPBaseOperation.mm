@@ -13,12 +13,17 @@
 
 #import "MCAsyncIMAP.h"
 #import "MCOIMAPSession.h"
+#import "NSObject+MCO.h"
 
 class MCOIMAPBaseOperationIMAPCallback : public mailcore::IMAPOperationCallback {
 public:
     MCOIMAPBaseOperationIMAPCallback(MCOIMAPBaseOperation * op)
     {
         mOperation = op;
+    }
+    
+    virtual ~MCOIMAPBaseOperationIMAPCallback()
+    {
     }
     
     virtual void bodyProgress(mailcore::IMAPOperation * session, unsigned int current, unsigned int maximum) {
@@ -38,7 +43,11 @@ private:
     MCOIMAPSession * _session;
 }
 
-- (id) initWithMCOperation:(mailcore::Operation *)op
+#define nativeType mailcore::IMAPOperation
+
+MCO_OBJC_SYNTHESIZE_SCALAR(BOOL, bool, setUrgent, isUrgent)
+
+- (instancetype) initWithMCOperation:(mailcore::Operation *)op
 {
     self = [super initWithMCOperation:op];
     

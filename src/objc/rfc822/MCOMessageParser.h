@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOMESSAGEPARSER_H_
+#ifndef MAILCORE_MCOMESSAGEPARSER_H
 
-#define __MAILCORE_MCOMESSAGEPARSER_H_
+#define MAILCORE_MCOMESSAGEPARSER_H
 
 /**
  This class implements a parsed message.
@@ -26,7 +26,7 @@
 + (MCOMessageParser *) messageParserWithData:(NSData *)data;
 
 /** data is the RFC 822 formatted message.*/
-- (id) initWithData:(NSData *)data;
+- (instancetype) initWithData:(NSData *)data;
 - (void) dealloc;
 
 /** It's the main part of the message. It can be MCOMessagePart, MCOMultipart or MCOAttachment.*/
@@ -47,6 +47,10 @@
 /** Text rendering of the body of the message. All end of line will be removed and white spaces cleaned up.
  This method can be used to generate the summary of the message.*/
 - (NSString *) plainTextBodyRendering;
+
+/** Text rendering of the body of the message. All end of line will be removed and white spaces cleaned up if requested.
+ This method can be used to generate the summary of the message.*/
+- (NSString *) plainTextBodyRenderingAndStripWhitespace:(BOOL)stripWhitespace;
 
 @end
 

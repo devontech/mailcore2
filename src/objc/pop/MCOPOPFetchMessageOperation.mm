@@ -29,6 +29,9 @@ public:
     {
         mOperation = op;
     }
+    virtual ~MCOPOPFetchMessageOperationCallback()
+    {
+    }
     
     virtual void bodyProgress(mailcore::POPOperation * session, unsigned int current, unsigned int maximum) {
         [mOperation bodyProgress:current maximum:maximum];
@@ -57,7 +60,7 @@ private:
     return [[[self alloc] initWithMCOperation:op] autorelease];
 }
 
-- (id)initWithMCOperation:(mailcore::Operation *)op
+- (instancetype) initWithMCOperation:(mailcore::Operation *)op
 {
     self = [super initWithMCOperation:op];
     

@@ -15,18 +15,20 @@
 #import "MCOOperation+Private.h"
 #import "MCOPOPFetchMessagesOperation.h"
 #import "MCOPOPOperation+Private.h"
+#include "MCOperationQueueCallback.h"
 
 using namespace mailcore;
 
 @interface MCOPOPSession ()
 
 - (void) _logWithSender:(void *)sender connectionType:(MCOConnectionLogType)logType data:(NSData *)data;
+- (void) _queueRunningChanged;
 
 @end
 
-class MCOPOPConnectionLoggerBridge : public Object, public ConnectionLogger {
+class MCOPOPCallbackBridge : public Object, public ConnectionLogger, public OperationQueueCallback {
 public:
-    MCOPOPConnectionLoggerBridge(MCOPOPSession * session)
+    MCOPOPCallbackBridge(MCOPOPSession * session)
     {
         mSession = session;
     }
@@ -35,7 +37,17 @@ public:
     {
         [mSession _logWithSender:sender connectionType:(MCOConnectionLogType)logType data:MCO_TO_OBJC(data)];
     }
-    
+
+    virtual void queueStartRunning()
+    {
+        [mSession _queueRunningChanged];
+    }
+
+    virtual void queueStoppedRunning()
+    {
+        [mSession _queueRunningChanged];
+    }
+
 private:
     MCOPOPSession * mSession;
 };
@@ -43,7 +55,8 @@ private:
 @implementation MCOPOPSession {
     mailcore::POPAsyncSession * _session;
     MCOConnectionLogger _connectionLogger;
-    MCOPOPConnectionLoggerBridge * _loggerBridge;
+    MCOPOPCallbackBridge * _callbackBridge;
+    MCOOperationQueueRunningChangeBlock _operationQueueRunningChangeBlock;
 }
 
 #define nativeType mailcore::POPAsyncSession
@@ -58,18 +71,19 @@ private:
     return MCO_OBJC_BRIDGE_GET(description);
 }
 
-- (id)init {
+- (instancetype) init {
     self = [super init];
     
     _session = new mailcore::POPAsyncSession();
-    _loggerBridge = new MCOPOPConnectionLoggerBridge(self);
+    _callbackBridge = new MCOPOPCallbackBridge(self);
     
     return self;
 }
 
 - (void)dealloc {
-    MC_SAFE_RELEASE(_loggerBridge);
+    MC_SAFE_RELEASE(_callbackBridge);
     [_connectionLogger release];
+    _session->setConnectionLogger(NULL);
     _session->release();
     [super dealloc];
 }
@@ -82,6 +96,7 @@ MCO_OBJC_SYNTHESIZE_SCALAR(MCOAuthType, mailcore::AuthType, setAuthType, authTyp
 MCO_OBJC_SYNTHESIZE_SCALAR(MCOConnectionType, mailcore::ConnectionType, setConnectionType, connectionType)
 MCO_OBJC_SYNTHESIZE_SCALAR(NSTimeInterval, time_t, setTimeout, timeout)
 MCO_OBJC_SYNTHESIZE_BOOL(setCheckCertificateEnabled, isCheckCertificateEnabled)
+MCO_OBJC_SYNTHESIZE_SCALAR(dispatch_queue_t, dispatch_queue_t, setDispatchQueue, dispatchQueue);
 
 - (void) setConnectionLogger:(MCOConnectionLogger)connectionLogger
 {
@@ -89,7 +104,7 @@ MCO_OBJC_SYNTHESIZE_BOOL(setCheckCertificateEnabled, isCheckCertificateEnabled)
     _connectionLogger = [connectionLogger copy];
     
     if (_connectionLogger != nil) {
-        _session->setConnectionLogger(_loggerBridge);
+        _session->setConnectionLogger(_callbackBridge);
     }
     else {
         _session->setConnectionLogger(NULL);
@@ -99,6 +114,29 @@ MCO_OBJC_SYNTHESIZE_BOOL(setCheckCertificateEnabled, isCheckCertificateEnabled)
 - (MCOConnectionLogger) connectionLogger
 {
     return _connectionLogger;
+}
+
+- (void) setOperationQueueRunningChangeBlock:(MCOOperationQueueRunningChangeBlock)operationQueueRunningChangeBlock
+{
+    [_operationQueueRunningChangeBlock release];
+    _operationQueueRunningChangeBlock = [operationQueueRunningChangeBlock copy];
+
+    if (_operationQueueRunningChangeBlock != nil) {
+        _session->setOperationQueueCallback(_callbackBridge);
+    }
+    else {
+        _session->setOperationQueueCallback(NULL);
+    }
+}
+
+- (MCOOperationQueueRunningChangeBlock) operationQueueRunningChangeBlock
+{
+    return _operationQueueRunningChangeBlock;
+}
+
+- (void) cancelAllOperations
+{
+    MCO_NATIVE_INSTANCE->cancelAllOperations();
 }
 
 #pragma mark - Operations
@@ -167,6 +205,19 @@ MCO_OBJC_SYNTHESIZE_BOOL(setCheckCertificateEnabled, isCheckCertificateEnabled)
 - (void) _logWithSender:(void *)sender connectionType:(MCOConnectionLogType)logType data:(NSData *)data
 {
     _connectionLogger(sender, logType, data);
+}
+
+- (void) _queueRunningChanged
+{
+    if (_operationQueueRunningChangeBlock == NULL)
+        return;
+
+    _operationQueueRunningChangeBlock();
+}
+
+- (BOOL) isOperationQueueRunning
+{
+    return _session->isOperationQueueRunning();
 }
 
 @end

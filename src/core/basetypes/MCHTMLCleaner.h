@@ -6,19 +6,24 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_HTMLCLEANER_H_
+#ifndef MAILCORE_HTMLCLEANER_H
 
-#define __MAILCORE_HTMLCLEANER_H_
+#define MAILCORE_HTMLCLEANER_H
 
 #include <MailCore/MCString.h>
+#include <MailCore/MCUtils.h>
+
+#ifdef __cplusplus
 
 namespace mailcore {
     
-    class HTMLCleaner {
+    class MAILCORE_EXPORT HTMLCleaner {
     public:
         static String * cleanHTML(String * input);
     };
     
 }
+
+#endif
 
 #endif

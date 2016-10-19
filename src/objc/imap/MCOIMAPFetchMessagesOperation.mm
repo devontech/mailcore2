@@ -17,7 +17,10 @@ typedef void (^CompletionType)(NSError *error, NSArray * messages, MCOIndexSet *
 
 @implementation MCOIMAPFetchMessagesOperation {
     CompletionType _completionBlock;
+    MCOIMAPBaseOperationItemProgressBlock _progress;
 }
+
+@synthesize progress = _progress;
 
 #define nativeType mailcore::IMAPFetchMessagesOperation
 
@@ -46,9 +49,9 @@ typedef void (^CompletionType)(NSError *error, NSArray * messages, MCOIndexSet *
 
 - (void) cancel
 {
-  [_completionBlock release];
-  _completionBlock = nil;
-  [super cancel];
+    [_completionBlock release];
+    _completionBlock = nil;
+    [super cancel];
 }
 
 - (void) operationCompleted

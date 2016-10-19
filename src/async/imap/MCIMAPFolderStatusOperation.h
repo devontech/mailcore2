@@ -7,9 +7,9 @@
 //
 
 
-#ifndef __MAILCORE_MCIMAPFOLDERSTATUSOPERATION_H_
+#ifndef MAILCORE_MCIMAPFOLDERSTATUSOPERATION_H
 
-#define __MAILCORE_MCIMAPFOLDERSTATUSOPERATION_H_
+#define MAILCORE_MCIMAPFOLDERSTATUSOPERATION_H
 
 #include <MailCore/MCIMAPOperation.h>
 
@@ -19,7 +19,7 @@ namespace mailcore {
     
     class IMAPFolderStatus;
     
-    class IMAPFolderStatusOperation : public IMAPOperation {
+    class MAILCORE_EXPORT IMAPFolderStatusOperation : public IMAPOperation {
     public:
         IMAPFolderStatusOperation();
         virtual ~IMAPFolderStatusOperation();

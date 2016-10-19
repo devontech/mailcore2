@@ -10,7 +10,6 @@
 
 #include "MCAttachment.h"
 
-#import "MCOAbstractPart+Private.h"
 #import "MCOUtils.h"
 #import "NSString+MCO.h"
 #import "NSObject+MCO.h"
@@ -32,10 +31,10 @@
     return [[[self alloc] initWithMCPart:attachment] autorelease];
 }
 
-- (id) init
+- (instancetype) init
 {
     mailcore::Attachment * attachment = new mailcore::Attachment();
-    self = [self initWithMCPart:attachment];
+    self = [super initWithMCPart:attachment];
     attachment->release();
     
     return self;

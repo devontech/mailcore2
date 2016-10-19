@@ -6,14 +6,17 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOSMTPOPERATION_PRIVATE_H_
-#define __MAILCORE_MCOSMTPOPERATION_PRIVATE_H_
+#ifndef MAILCORE_MCOSMTPOPERATION_PRIVATE_H
+
+#define MAILCORE_MCOSMTPOPERATION_PRIVATE_H
 
 @class MCOSMTPSession;
 
 @interface MCOSMTPOperation (Private)
 
 @property (nonatomic, retain) MCOSMTPSession * session;
+
+- (NSError *) _errorFromNativeOperation;
 
 @end
 

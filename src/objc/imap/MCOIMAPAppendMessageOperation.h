@@ -6,16 +6,19 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPAPPENDMESSAGEOPERATION_H_
+#ifndef MAILCORE_MCOIMAPAPPENDMESSAGEOPERATION_H
 
-#define __MAILCORE_MCOIMAPAPPENDMESSAGEOPERATION_H_
+#define MAILCORE_MCOIMAPAPPENDMESSAGEOPERATION_H
 
 /** This class implements an operation that adds a message to a folder. */
 
 #import <MailCore/MCOIMAPBaseOperation.h>
 #import <MailCore/MCOConstants.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MCOIMAPAppendMessageOperation : MCOIMAPBaseOperation
+
+@property (nonatomic, assign) time_t date;
 
 /** 
  This block will be called as bytes are sent
@@ -33,8 +36,9 @@
  - On failure, `error` will be set with `MCOErrorDomain` as domain and an 
    error code available in MCOConstants.h, `createdUID` will be zero.
 */
-- (void) start:(void (^)(NSError * error, uint32_t createdUID))completionBlock;
+- (void) start:(void (^)(NSError * __nullable error, uint32_t createdUID))completionBlock;
 
 @end
+NS_ASSUME_NONNULL_END
 
 #endif

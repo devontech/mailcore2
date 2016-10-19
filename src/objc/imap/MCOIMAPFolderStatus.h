@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOIMAPFOLDERSTATUS_H_
+#ifndef MAILCORE_MCOIMAPFOLDERSTATUS_H
 
-#define __MAILCORE_MCOIMAPFOLDERSTATUS_H_
+#define MAILCORE_MCOIMAPFOLDERSTATUS_H
 
 #import <Foundation/Foundation.h>
 
@@ -32,7 +32,7 @@
 @property (nonatomic, assign) uint32_t messageCount;
 
 /** Highest modification sequence value for this folder. See CONDSTORE RFC 4551. */
-@property (nonatomic, assign) uint64_t setHighestModSeqValue;
+@property (nonatomic, assign) uint64_t highestModSeqValue;
 
 @end
 

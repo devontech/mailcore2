@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCOSMTPSESSION_H_
+#ifndef MAILCORE_MCOSMTPSESSION_H
 
-#define __MAILCORE_MCOSMTPSESSION_H_
+#define MAILCORE_MCOSMTPSESSION_H
 
 #import <Foundation/Foundation.h>
 
@@ -30,7 +30,7 @@
 /** This is the hostname of the SMTP server to connect to. */
 @property (nonatomic, copy) NSString * hostname;
 
-/** This is the port of the POP3 server to connect to. */
+/** This is the port of the SMTP server to connect to. */
 @property (nonatomic, assign) unsigned int port;
 
 /** This is the username of the account. */
@@ -76,7 +76,51 @@
  */
 @property (nonatomic, copy) MCOConnectionLogger connectionLogger;
 
+/** This property provides some hints to MCOSMTPSession about where it's called from.
+ It will make MCOSMTPSession safe. It will also set all the callbacks of operations to run on this given queue.
+ Defaults to the main queue.
+ This property should be used only if there's performance issue using MCOSMTPSession in the main thread. */
+#if OS_OBJECT_USE_OBJC
+@property (nonatomic, retain) dispatch_queue_t dispatchQueue;
+#else
+@property (nonatomic, assign) dispatch_queue_t dispatchQueue;
+#endif
+
+/**
+ The value will be YES when asynchronous operations are running, else it will return NO.
+ */
+@property (nonatomic, assign, readonly, getter=isOperationQueueRunning) BOOL operationQueueRunning;
+
+/**
+ Sets operation running callback. It will be called when operations start or stop running.
+
+ [session setOperationQueueRunningChangeBlock:^{
+   if ([session isOperationQueueRunning]) {
+     ...
+   }
+   else {
+     ...
+   }
+ }];
+ */
+@property (nonatomic, copy) MCOOperationQueueRunningChangeBlock operationQueueRunningChangeBlock;
+
+/**
+ Cancel all operations
+ */
+- (void) cancelAllOperations;
+
 /** @name Operations */
+
+/**
+ Returns an operation that will perform a login.
+ 
+ MCOSMTPOperation * op = [session loginOperation];
+ [op start:^(NSError * __nullable error) {
+ ...
+ }];
+ */
+- (MCOSMTPOperation *) loginOperation;
 
 /**
  Returns an operation that will send the given message through SMTP.
@@ -85,8 +129,8 @@
 
  Generate RFC 822 data using MCOMessageBuilder
 
-     MCOPOPOperation * op = [session sendOperationWithData:rfc822Data];
-     [op start:^(NSError * error) {
+     MCOSMTPOperation * op = [session sendOperationWithData:rfc822Data];
+     [op start:^(NSError * __nullable error) {
           ...
      }];
 */
@@ -99,10 +143,10 @@
  
  Generate RFC 822 data using MCOMessageBuilder
  
- MCOPOPOperation * op = [session sendOperationWithData:rfc822Data
+ MCOSMTPOperation * op = [session sendOperationWithData:rfc822Data
                                                   from:[MCOAddress addressWithMailbox:@"hoa@etpan.org"]
                                             recipients:[NSArray arrayWithObject:[MCOAddress addressWithMailbox:@"laura@etpan.org"]]];
- [op start:^(NSError * error) {
+ [op start:^(NSError * __nullable error) {
  ...
  }];
  */
@@ -110,11 +154,29 @@
                                             from:(MCOAddress *)from
                                       recipients:(NSArray *)recipients;
 
+
+/**
+ Returns an operation that will send the message from the given file through SMTP.
+ It will use the sender and recipient set from the parameters.
+ It will also filter out Bcc from the content of the message.
+
+ MCOSMTPOperation * op = [session sendOperationWithContentsOfFile:rfc822DataFilename
+                                                             from:[MCOAddress addressWithMailbox:@"hoa@etpan.org"]
+                                                       recipients:[NSArray arrayWithObject:
+                                                                   [MCOAddress addressWithMailbox:@"laura@etpan.org"]]];
+ [op start:^(NSError * __nullable error) {
+ ...
+ }];
+ */
+- (MCOSMTPSendOperation *) sendOperationWithContentsOfFile:(NSString *)path
+                                                      from:(MCOAddress *)from
+                                                recipients:(NSArray *)recipients;
+
 /**
  Returns an operation that will check whether the SMTP account is valid.
 
-     MCOPOPOperation * op = [session checkAccountOperationWithFrom:[MCOAddress addressWithMailbox:@"hoa@etpan.org"]];
-     [op start:^(NSError * error) {
+     MCOSMTPOperation * op = [session checkAccountOperationWithFrom:[MCOAddress addressWithMailbox:@"hoa@etpan.org"]];
+     [op start:^(NSError * __nullable error) {
           ...
      }];
 */
@@ -123,8 +185,8 @@
 /**
  Returns an operation that will perform a No-Op.
  
- MCOPOPOperation * op = [session noopOperation];
- [op start:^(NSError * error) {
+ MCOSMTPOperation * op = [session noopOperation];
+ [op start:^(NSError * __nullable error) {
  ...
  }];
  */

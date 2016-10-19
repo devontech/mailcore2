@@ -1,6 +1,6 @@
-#ifndef __MAILCORE_IMAPMESSAGEPART_H_
+#ifndef MAILCORE_IMAPMESSAGEPART_H
 
-#define __MAILCORE_IMAPMESSAGEPART_H_
+#define MAILCORE_IMAPMESSAGEPART_H
 
 #include <MailCore/MCAbstractMessagePart.h>
 
@@ -8,7 +8,7 @@
 
 namespace mailcore {
     
-    class IMAPMessagePart : public AbstractMessagePart {
+    class MAILCORE_EXPORT IMAPMessagePart : public AbstractMessagePart {
     public:
         IMAPMessagePart();
         virtual ~IMAPMessagePart();
@@ -26,6 +26,7 @@ namespace mailcore {
         String * mPartID;
         void init();
     };
+    
 }
 
 #endif

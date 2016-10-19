@@ -11,7 +11,6 @@
 #include "MCRFC822.h"
 
 #import "MCOUtils.h"
-#import "MCOAbstractMessage+Private.h"
 #import "MCOAbstractMessageRendererCallback.h"
 
 @implementation MCOMessageBuilder
@@ -23,7 +22,7 @@
     MCORegisterClass(self, &typeid(nativeType));
 }
 
-- (id)init
+- (instancetype) init
 {
     mailcore::MessageBuilder * message = new mailcore::MessageBuilder();
     self = [super initWithMCMessage:message];
@@ -66,6 +65,20 @@ MCO_OBJC_SYNTHESIZE_STRING(setBoundaryPrefix, boundaryPrefix)
     return MCO_OBJC_BRIDGE_GET(data);
 }
 
+- (NSData *) dataForEncryption
+{
+    return MCO_OBJC_BRIDGE_GET(dataForEncryption);
+}
+
+- (BOOL) writeToFile:(NSString *)filename error:(NSError **)error
+{
+    mailcore::ErrorCode errorCode = MCO_NATIVE_INSTANCE->writeToFile(MCO_FROM_OBJC(mailcore::String, filename));
+    if (error) {
+        *error = [NSError mco_errorWithErrorCode:errorCode];
+    }
+    return errorCode == mailcore::ErrorNone;
+}
+
 - (NSString *) htmlRenderingWithDelegate:(id <MCOHTMLRendererDelegate>)delegate
 {
     MCOAbstractMessageRendererCallback * htmlRenderCallback = new MCOAbstractMessageRendererCallback(self, delegate, NULL);
@@ -74,7 +87,6 @@ MCO_OBJC_SYNTHESIZE_STRING(setBoundaryPrefix, boundaryPrefix)
     
     return result;
 }
-
 
 - (NSString *) htmlBodyRendering
 {
@@ -88,7 +100,27 @@ MCO_OBJC_SYNTHESIZE_STRING(setBoundaryPrefix, boundaryPrefix)
 
 - (NSString *) plainTextBodyRendering
 {
-    return MCO_OBJC_BRIDGE_GET(plainTextBodyRendering);
+    return [self plainTextBodyRenderingAndStripWhitespace:YES];
+}
+
+- (NSString *) plainTextBodyRenderingAndStripWhitespace:(BOOL)stripWhitespace
+{
+    return MCO_TO_OBJC(MCO_NATIVE_INSTANCE->plainTextBodyRendering(stripWhitespace));
+}
+
+- (NSData *) openPGPSignedMessageDataWithSignatureData:(NSData *)signature
+{
+    return MCO_TO_OBJC(MCO_NATIVE_INSTANCE->openPGPSignedMessageDataWithSignatureData(MCO_FROM_OBJC(mailcore::Data, signature)));
+}
+
+- (NSData *) openPGPEncryptedMessageDataWithEncryptedData:(NSData *)encryptedData
+{
+    return MCO_TO_OBJC(MCO_NATIVE_INSTANCE->openPGPEncryptedMessageDataWithEncryptedData(MCO_FROM_OBJC(mailcore::Data, encryptedData)));
+}
+
+- (void) _setBoundaries:(NSArray *)boundaries
+{
+    MCO_NATIVE_INSTANCE->setBoundaries(MCO_FROM_OBJC(mailcore::Array, boundaries));
 }
 
 @end

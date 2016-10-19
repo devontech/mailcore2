@@ -14,7 +14,7 @@
 #define nativeType mailcore::IMAPFolderStatus
 
 @implementation MCOIMAPFolderStatus {
-	mailcore::IMAPFolderStatus * _nativeStatus;
+    mailcore::IMAPFolderStatus * _nativeStatus;
 }
 
 + (void) load
@@ -22,7 +22,7 @@
     MCORegisterClass(self, &typeid(nativeType));
 }
 
-- (id) initWithMCFolderStatus:(mailcore::IMAPFolderStatus *)status
+- (instancetype) initWithMCFolderStatus:(mailcore::IMAPFolderStatus *)status
 {
     self = [super init];
     

@@ -6,28 +6,38 @@
 //  Copyright (c) 2013 MailCore. All rights reserved.
 //
 
-#ifndef __MAILCORE_MCHTMLRENDERERCALLBACK_H_
+#ifndef MAILCORE_MCHTMLRENDERERCALLBACK_H
 
-#define __MAILCORE_MCHTMLRENDERERCALLBACK_H_
+#define MAILCORE_MCHTMLRENDERERCALLBACK_H
 
 #include <MailCore/MCAbstract.h>
 #include <MailCore/MCIMAP.h>
+#include <MailCore/MCUtils.h>
 
 #ifdef __cplusplus
 
 namespace mailcore {
     
     class MessageParser;
+    class Attachment;
     
-    class HTMLRendererIMAPCallback {
+    class MAILCORE_EXPORT HTMLRendererIMAPCallback {
     public:
+        HTMLRendererIMAPCallback() {}
+        virtual ~HTMLRendererIMAPCallback() {}
+
         virtual Data * dataForIMAPPart(String * folder, IMAPPart * part) { return NULL; }
         virtual void prefetchAttachmentIMAPPart(String * folder, IMAPPart * part) {}
         virtual void prefetchImageIMAPPart(String * folder, IMAPPart * part) {}
     };
-    
-    class HTMLRendererTemplateCallback {
+
+    class MAILCORE_EXPORT HTMLRendererTemplateCallback {
     public:
+        HTMLRendererTemplateCallback();
+        virtual ~HTMLRendererTemplateCallback();
+
+        virtual void setMixedTextAndAttachmentsModeEnabled(bool enabled);
+
         virtual bool canPreviewPart(AbstractPart * part);
         virtual bool shouldShowPart(AbstractPart * part);
         
@@ -41,7 +51,9 @@ namespace mailcore {
         virtual String * templateForEmbeddedMessage(AbstractMessagePart * part);
         virtual String * templateForEmbeddedMessageHeader(MessageHeader * header);
         virtual String * templateForAttachmentSeparator();
-		
+        
+        virtual String * cleanHTMLForPart(String * html);
+
         // Can be used to filter some HTML tags.
         virtual String * filterHTMLForPart(String * html);
         
@@ -49,6 +61,12 @@ namespace mailcore {
         virtual String * filterHTMLForMessage(String * html);
     };
 
+    class MAILCORE_EXPORT HTMLRendererRFC822Callback {
+    public:
+        virtual Data * dataForRFC822Part(String * folder, Attachment * part) { return NULL; }
+
+    };
+    
 }
 
 #endif
